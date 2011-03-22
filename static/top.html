@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>tepco-usage-api</title>
+  </head>
+  <body>
+    <h1>tepco-usage-api</h1>
+    <p>
+      <ul>
+	<li>
+	  <a href="http://tepco-usage-api.appspot.com/latest.json">http://tepco-usage-api.appspot.com/latest.json</a><br/>
+	  これは、最新の電力使用状況を返します。
+	</li>
+	<li>
+	  <a href="http://tepco-usage-api.appspot.com/2011/3/23/1.json">http://tepco-usage-api.appspot.com/2011/3/23/1.json</a><br/>
+	  これは、指定された日時の電力使用状況を返します。
+	  URLは、/YYYY/MM/DD/HH.jsonという形式です。
+	  月日時は、1桁でも2桁でもかまいません。
+	</li>
+	<li>
+	  <a href="http://tepco-usage-api.appspot.com/2011/3/23.json">http://tepco-usage-api.appspot.com/2011/3/23.json</a><br/>
+	  これは、指定された日の毎時の電力使用状況を、配列として返します。
+	  URLは、/YYYY/MM/DD.jsonという形式です。
+	  月日は、1桁でも2桁でもかまいません。
+	</li>
+	<li>
+	  <a href="http://tepco-usage-api.appspot.com/2011/3.json">http://tepco-usage-api.appspot.com/2011/3.json</a><br/>
+	  これは、指定された月の毎日毎時の電力使用状況を、配列として返します。
+	  URLは、/YYYY/MM.jsonという形式です。
+	  月は、1桁でも2桁でもかまいません。
+	</li>
+      </ul>
+    </p>
+
+    <p>
+      <dl>
+	<dt>year</dt>
+	<dd>年</dd>
+	<dt>month</dt>
+	<dd>月</dd>
+	<dt>day</dt>
+	<dd>日</dd>
+	<dt>hour</dt>
+	<dd>時刻（24時間制）</dd>
+	<dt>entryfor</dt>
+	<dd>この時刻の文字列（UTC）</dd>
+	<dt>capacity</dt>
+	<dd>供給可能最大電力（万kW）</dd>
+	<dt>capacity_updated</dt>
+	<dd>供給可能最大電力が決定された日時（UTC）</dd>
+	<dt>usage</dt>
+	<dd>この時刻の消費電力（万kW）</dd>
+	<dt>usage_updated</dt>
+	<dd>この消費電力のデータが更新された日時（UTC）</dd>
+	<dt>saving</dt>
+	<dd>この時刻に計画停電が実施されていればtrue</dd>
+      </dl>
+    </p>
+
+    <hr/>
+    2011-3-23<br/>
+    <a href="http://twitter.com/ssci">http://twitter.com/ssci</a>
+  </body>
+</html>

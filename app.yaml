@@ -7,8 +7,21 @@ handlers:
 - url: /update_from_tepco
   script: app.py
   login: admin
-- url: /.*
+- url: /latest.json
   script: app.py
+- url: /\d{4}/\d{1,2}/\d{1,2}/\d{1,2}.json
+  script: app.py
+- url: /\d{4}/\d{1,2}/\d{1,2}.json
+  script: app.py
+- url: /\d{4}/\d{1,2}.json
+  script: app.py
+- url: /static/.*
+  static_files: static/\1
+  upload: static/(.*)
+- url: /
+  static_files: static/top.html
+  upload: static/top.html
+  mime_type: text/html;charset=utf8
 
 builtins:
 - datastore_admin: on

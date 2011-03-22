@@ -4,17 +4,11 @@
 # Copyright (c) 2011 by Shigeru KANEMOTO
 #
 
-from flask import Flask
+from flask import Flask, redirect, request, jsonify, abort, Response, json
 app = Flask(__name__)
 app.debug = True
 
-from flask import (
-  redirect, url_for, request, render_template, abort,
-)
-
 from google.appengine.ext import db
-import simplejson as json
-
 import datetime
 import tepco
 
@@ -22,6 +16,10 @@ import tepco
 
 class Usage(db.Model):
   entryfor = db.DateTimeProperty(required=True)
+  year = db.IntegerProperty(required=True)
+  month = db.IntegerProperty(required=True)
+  day = db.IntegerProperty(required=True)
+  hour = db.IntegerProperty(required=True)
   usage = db.IntegerProperty(required=True)
   saving = db.BooleanProperty(required=True)
   usage_updated = db.DateTimeProperty(required=True)
@@ -80,6 +78,10 @@ def update_from_tepco():
     if not entry:
       Usage(
 	entryfor=entryfor,
+	year=year,
+	month=month,
+	day=day,
+	hour=hour,
 	usage=usage,
 	saving=saving,
 	usage_updated=usage_updated,
@@ -87,3 +89,61 @@ def update_from_tepco():
 	capacity_updated=capacity_updated,
       ).put()
   return ''
+
+def dict_from_usage(usage):
+  return {
+    'entryfor': str(usage.entryfor),
+    'year': usage.year,
+    'month': usage.month,
+    'day': usage.day,
+    'hour': usage.hour,
+    'usage': usage.usage,
+    'saving': usage.saving,
+    'usage_updated': str(usage.usage_updated),
+    'capacity': usage.capacity,
+    'capacity_updated': str(usage.capacity_updated),
+  }
+
+@app.route('/latest.json')
+def latest():
+  usage = Usage.all().order('-entryfor').get()
+  if not usage:
+    abort(404)
+  return jsonify(dict_from_usage(usage))
+
+@app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
+def hour(year, month, day, hour):
+  usage = Usage.all()
+  usage = usage.filter('year =', year)
+  usage = usage.filter('month =', month)
+  usage = usage.filter('day =', day)
+  usage = usage.filter('hour =', hour)
+  usage = usage.get()
+  if not usage:
+    abort(404)
+  return jsonify(dict_from_usage(usage))
+
+@app.route('/<int:year>/<int:month>/<int:day>.json')
+def day(year, month, day):
+  usage = Usage.all()
+  usage = usage.filter('year =', year)
+  usage = usage.filter('month =', month)
+  usage = usage.filter('day =', day)
+  usage = usage.order('entryfor')
+  usage = [dict_from_usage(u) for u in usage]
+  if len(usage) == 0:
+    abort(404)
+  # XXX security risk
+  return Response(json.dumps(usage, indent=2), mimetype='application/json')
+
+@app.route('/<int:year>/<int:month>.json')
+def month(year, month):
+  usage = Usage.all()
+  usage = usage.filter('year =', year)
+  usage = usage.filter('month =', month)
+  usage = usage.order('entryfor')
+  usage = [dict_from_usage(u) for u in usage]
+  if len(usage) == 0:
+    abort(404)
+  # XXX security risk
+  return Response(json.dumps(usage, indent=2), mimetype='application/json')

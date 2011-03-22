@@ -1,0 +1,14 @@
+indexes:
+
+- kind: Usage
+  properties:
+    - name: day
+    - name: month
+    - name: year
+    - name: entryfor
+
+- kind: Usage
+  properties:
+    - name: month
+    - name: year
+    - name: entryfor
