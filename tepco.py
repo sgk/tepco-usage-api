@@ -9,6 +9,7 @@
 import urllib2
 import re
 import time
+import datetime
 import locale
 from StringIO import StringIO
 from PIL import Image
@@ -41,11 +42,16 @@ def from_text():
     raise RuntimeError
   t =  m.group(1)
   t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
+  year, month, day = t.tm_year, t.tm_mon, t.tm_mday
   t = time.mktime(t) - 60*60*9
+  t = datetime.datetime.utcfromtimestamp(t)
 
   return {
     'capacity': capacity,
     'capacity-updated': t,
+    'year': year,
+    'month': month,
+    'day': day,
   }
 
 def frequent_color(line):
@@ -68,8 +74,7 @@ def frequent_color(line):
 def from_image():
   image = urllib2.urlopen(IMAGE_URL)
   modified = image.headers['last-modified']
-  modified = time.strptime(modified, '%a, %d %b %Y %H:%M:%S %Z')
-  modified = time.mktime(modified)
+  modified = datetime.datetime.strptime(modified, '%a, %d %b %Y %H:%M:%S %Z')
 
   image = StringIO(image.read())
   image = Image.open(image)
@@ -100,12 +105,15 @@ def from_image():
     'usage-updated': modified,
   }
 
+def from_web():
+  d = from_text()
+  d.update(from_image())
+  return d
 
 def main():
   locale.setlocale(locale.LC_ALL, 'C')
   import pprint
-  pprint.pprint(from_text())
-  pprint.pprint(from_image())
+  pprint.pprint(from_web())
 
 if __name__ == '__main__':
   main()
