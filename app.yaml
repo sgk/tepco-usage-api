@@ -1,0 +1,14 @@
+application: tepco-usage-api
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /update_from_tepco
+  script: app.py
+  login: admin
+- url: /.*
+  script: app.py
+
+builtins:
+- datastore_admin: on

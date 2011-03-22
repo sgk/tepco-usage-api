@@ -1,0 +1,4 @@
+cron:
+- description: update from the TEPCO website
+  url: /update_from_tepco
+  schedule: every 1 minutes

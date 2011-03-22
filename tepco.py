@@ -11,14 +11,12 @@ import re
 import time
 import datetime
 import locale
-from StringIO import StringIO
-from PIL import Image
+
+import pygif
 
 PAGE_URL = 'http://www.tepco.co.jp/en/forecast/html/index-e.html'
 IMAGE_URL = 'http://www.tepco.co.jp/en/forecast/html/images/juyo-e.gif'
-
-RE_CAPACITY = re.compile('Today\'s Maximum Capacity&nbsp;:&nbsp;([\d,]+)&nbsp;10&nbsp;thousand&nbsp;kW')
-RE_UPDATE = re.compile('<div class="fore_tmc01">([a-zA-Z]{3} \d{1,2}. \d{1,2}:\d{2}) Update</div>')
+RE_CAPACITY = re.compile('Today\'s Maximum Capacity&nbsp;:&nbsp;([\d,]+)&nbsp;10&nbsp;thousand&nbsp;kW \(([a-zA-Z]{3} \d{1,2}. \d{1,2}:\d{2}) Update\)')
 
 COLOR_PINK = 106
 COLOR_BLUE = 6
@@ -36,11 +34,7 @@ def from_text():
     raise RuntimeError
   capacity = m.group(1)
   capacity = int(capacity.replace(',', ''))
-
-  m = RE_UPDATE.search(page)
-  if not m:
-    raise RuntimeError
-  t =  m.group(1)
+  t = m.group(2)
   t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
   year, month, day = t.tm_year, t.tm_mon, t.tm_mday
   t = time.mktime(t) - 60*60*9
@@ -71,25 +65,28 @@ def frequent_color(line):
       color = c
   return color
 
-def from_image():
+def from_image(oldlastmodstr=None):
   image = urllib2.urlopen(IMAGE_URL)
-  modified = image.headers['last-modified']
-  modified = datetime.datetime.strptime(modified, '%a, %d %b %Y %H:%M:%S %Z')
+  lastmodstr = image.headers['last-modified']
+  if lastmodstr == oldlastmodstr:
+    return None
+  modified = datetime.datetime.strptime(lastmodstr, '%a, %d %b %Y %H:%M:%S %Z')
 
-  image = StringIO(image.read())
-  image = Image.open(image)
-  image = image.load()
+  image = pygif.GifDecoder(image.read())
+  image = image.images[0]
+  def pixel(x, y):
+    return image.pixels[y * image.width + x]
 
   comb = []
   for x in range(53, 570):
-    if image[x, 284] == COLOR_BLACK:
+    if pixel(x, 284) == COLOR_BLACK:
       comb.append(x + 1)
 
   d = {}
   for h, x in zip(range(24), comb):
     count = 0
     for y in range(285, 55, -1):
-      color = frequent_color([image[xx, y] for xx in range(x, x + 21)])
+      color = frequent_color([pixel(xx, y) for xx in range(x, x + 21)])
       if color == COLOR_YELLOW:
 	break
       count += 1
@@ -97,17 +94,20 @@ def from_image():
       break
     power = 6000 * count / (285 - 55 + 2)
     power = (power + 9) / 10 * 10
-    saving = (image[x, 285] == COLOR_ORANGE)
+    saving = (pixel(x, 285) == COLOR_ORANGE)
     d[h] = (power, saving)
 
   return {
     'usage': d,
     'usage-updated': modified,
+    'lastmodstr': lastmodstr,
   }
 
-def from_web():
-  d = from_text()
-  d.update(from_image())
+def from_web(oldlastmodstr=None):
+  d = from_image(oldlastmodstr)
+  if not d:
+    return None
+  d.update(from_text())
   return d
 
 def main():
