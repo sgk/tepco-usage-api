@@ -75,8 +75,13 @@ def from_image():
   image = Image.open(image)
   image = image.load()
 
+  comb = []
+  for x in range(53, 570):
+    if image[x, 284] == COLOR_BLACK:
+      comb.append(x + 1)
+
   d = {}
-  for h, x in zip(range(24), (58, 80, 102, 124, 146, 168, 190, 212, 234, 256, 278, 300, 322, 344, 366, 388, 411, 433, 453, 475, 497, 519, 541, 563)):
+  for h, x in zip(range(24), comb):
     count = 0
     for y in range(285, 55, -1):
       color = frequent_color([image[xx, y] for xx in range(x, x + 21)])
