@@ -40,7 +40,7 @@ def from_text():
   if not m:
     raise RuntimeError
   t =  m.group(1)
-  t = time.strptime(t + ' 2011 JST', '%b %d. %H:%M %Y %Z')
+  t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
   t = time.mktime(t) - 60*60*9
 
   return {
@@ -88,9 +88,11 @@ def from_image():
       if color == COLOR_YELLOW:
 	break
       count += 1
-    saving = (image[x, 285] == COLOR_ORANGE)
+    if count == 0:
+      break
     power = 6000 * count / (285 - 55 + 2)
     power = (power + 9) / 10 * 10
+    saving = (image[x, 285] == COLOR_ORANGE)
     d[h] = (power, saving)
 
   return {
