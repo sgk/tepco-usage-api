@@ -35,14 +35,13 @@ def from_text():
     raise RuntimeError
   capacity = m.group(1)
   capacity = int(capacity.replace(',', ''))
-  print capacity
 
   m = RE_UPDATE.search(page)
   if not m:
     raise RuntimeError
   t =  m.group(1)
-  t = time.strptime('2011 ' + t, '%Y %b %d. %H:%M')
-  print t
+  t = time.strptime(t + ' 2011 JST', '%b %d. %H:%M %Y %Z')
+  t = time.mktime(t) - 60*60*9
 
   return {
     'capacity': capacity,
@@ -70,6 +69,7 @@ def from_image():
   image = urllib2.urlopen(IMAGE_URL)
   modified = image.headers['last-modified']
   modified = time.strptime(modified, '%a, %d %b %Y %H:%M:%S %Z')
+  modified = time.mktime(modified)
 
   image = StringIO(image.read())
   image = Image.open(image)
