@@ -26,30 +26,34 @@ COLOR_YELLOW = 125
 COLOR_BLACK = 1
 COLOR_ORANGE = 112
 
-def frequent_color(line):
-  freq = 0
-  color = COLOR_BLACK	# default
-  for c in set(line):
-    if c in (COLOR_PINK, COLOR_BLUE):
-      continue
-    f = line.count(c)
-    if freq < f:
-      color = c
-  return color
-
-  for c, f in [(c, colors.count(c)) for c in set(colors)]:
-    if freq < f:
-      freq = f
-      color = c
-  return color
-
 def from_web(oldlastmodstr=None):
-  image = urllib2.urlopen(IMAGE_URL)
-  lastmodstr = image.headers['last-modified']
+  csv = urllib2.urlopen(CSV_URL)
+  lastmodstr = csv.headers['last-modified']
   if lastmodstr == oldlastmodstr:
     return None
-  modified = datetime.datetime.strptime(lastmodstr, '%a, %d %b %Y %H:%M:%S %Z')
+  r = {
+    'usage-updated': datetime.datetime.strptime(lastmodstr, '%a, %d %b %Y %H:%M:%S %Z'),
+    'lastmodstr': lastmodstr,
+  }
 
+  #
+  # Power usage
+  #
+  usage = {}
+  csv.readline()
+  csv.readline()
+  for line in csv:
+    line = line.split(',')
+    power = int(line[2])
+    if power == 0:
+      break
+    hour = int(line[1].split(':')[0])
+    usage[hour] = power
+
+  #
+  # Rolling blackout
+  #
+  image = urllib2.urlopen(IMAGE_URL)
   image = pygif.GifDecoder(image.read())
   image = image.images[0]
   def pixel(x, y):
@@ -60,28 +64,13 @@ def from_web(oldlastmodstr=None):
     if pixel(x, 284) == COLOR_BLACK:
       comb.append(x + 1)
 
-  savings = []
-  for h, x in zip(range(24), comb):
-    savings.append(pixel(x, 285) == COLOR_ORANGE)
+  for h in usage.keys():
+    usage[h] = (usage[h], (pixel(x, 285) == COLOR_ORANGE))
+  r['usage'] = usage
 
-  usage = {}
-  csv = urllib2.urlopen(CSV_URL)
-  csv.readline()
-  csv.readline()
-  for line in csv:
-    line = line.split(',')
-    power = int(line[2])
-    if power == 0:
-      break
-    hour = int(line[1].split(':')[0])
-    usage[hour] = (power, savings[hour])
-
-  r = {
-    'usage': usage,
-    'usage-updated': modified,	# UTC
-    'lastmodstr': lastmodstr,
-  }
-
+  #
+  # Capacity
+  #
   page = urllib2.urlopen(PAGE_URL)
   page = page.read()
 
@@ -90,15 +79,12 @@ def from_web(oldlastmodstr=None):
     raise RuntimeError
   capacity = m.group(1)
   capacity = int(capacity.replace(',', ''))
-  t = m.group(2)
-  t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
-  t = time.mktime(t) - 60*60*9
-  t = datetime.datetime.utcfromtimestamp(t)
+  r['capacity'] = capacity
 
-  r.update({
-    'capacity': capacity,
-    'capacity-updated': t,	# UTC
-  })
+  t = m.group(2)
+  t = datetime.datetime.strptime(t + ' 2011', '%b %d. %H:%M %Y')
+  t = t - datetime.timedelta(hours=9)
+  r['capacity-updated'] = t	# UTC
 
   return r
 
