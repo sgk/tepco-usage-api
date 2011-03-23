@@ -4,7 +4,7 @@
 # Copyright (c) 2011 by Shigeru KANEMOTO
 #
 
-from flask import Flask, redirect, request, jsonify, abort, Response, json
+from flask import Flask, render_template, jsonify, abort, Response, json
 app = Flask(__name__)
 app.debug = True
 
@@ -56,10 +56,9 @@ def utc_from_jst(dt):
 def update_from_tepco():
   lastmod = Config.get_by_key_name('last-modified')
   lastmod = lastmod and lastmod.value
-
   data = tepco.from_web(lastmod)
   if not data:
-    return ''
+    return ''	# not yet updated
   Config(
     key_name='last-modified',
     value=data['lastmodstr']
@@ -68,26 +67,28 @@ def update_from_tepco():
   usage_updated = data['usage-updated']
   capacity = data['capacity']
   capacity_updated = data['capacity-updated']
-  year = data['year']
-  month = data['month']
-  day = data['day']
+
+  # the image is updated hourly just after the hour.
+  jst = jst_from_utc(usage_updated) - datetime.timedelta(hours=1)
+  jst = jst.replace(minute=0, second=0, microsecond=0)
 
   for hour, (usage, saving) in data['usage'].iteritems():
-    entryfor = utc_from_jst(datetime.datetime(year, month, day, hour))
+    entryfor = utc_from_jst(jst.replace(hour=hour))
     entry = Usage.all().filter('entryfor =', entryfor).get()
-    if not entry:
-      Usage(
-	entryfor=entryfor,
-	year=year,
-	month=month,
-	day=day,
-	hour=hour,
-	usage=usage,
-	saving=saving,
-	usage_updated=usage_updated,
-	capacity=capacity,
-	capacity_updated=capacity_updated,
-      ).put()
+    if entry:
+      continue
+    Usage(
+      entryfor=entryfor,
+      year=entryfor.year,
+      month=jst.month,
+      day=jst.day,
+      hour=hour,
+      usage=usage,
+      saving=saving,
+      usage_updated=usage_updated,
+      capacity=capacity,
+      capacity_updated=capacity_updated,
+    ).put()
   return ''
 
 def dict_from_usage(usage):
@@ -103,6 +104,12 @@ def dict_from_usage(usage):
     'capacity': usage.capacity,
     'capacity_updated': str(usage.capacity_updated),
   }
+
+@app.route('/')
+def top():
+  usage = Usage.all().order('-entryfor').get()
+  today = jst_from_utc(usage.usage_updated) if usage else timedate.timedate.now()
+  return render_template('top.html', usage=usage, today=today)
 
 @app.route('/latest.json')
 def latest():

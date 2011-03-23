@@ -25,29 +25,6 @@ COLOR_YELLOW = 125
 COLOR_BLACK = 1
 COLOR_ORANGE = 112
 
-def from_text():
-  page = urllib2.urlopen(PAGE_URL)
-  page = page.read()
-
-  m = RE_CAPACITY.search(page)
-  if not m:
-    raise RuntimeError
-  capacity = m.group(1)
-  capacity = int(capacity.replace(',', ''))
-  t = m.group(2)
-  t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
-  year, month, day = t.tm_year, t.tm_mon, t.tm_mday
-  t = time.mktime(t) - 60*60*9
-  t = datetime.datetime.utcfromtimestamp(t)
-
-  return {
-    'capacity': capacity,
-    'capacity-updated': t,
-    'year': year,
-    'month': month,
-    'day': day,
-  }
-
 def frequent_color(line):
   freq = 0
   color = COLOR_BLACK	# default
@@ -65,7 +42,7 @@ def frequent_color(line):
       color = c
   return color
 
-def from_image(oldlastmodstr=None):
+def from_web(oldlastmodstr=None):
   image = urllib2.urlopen(IMAGE_URL)
   lastmodstr = image.headers['last-modified']
   if lastmodstr == oldlastmodstr:
@@ -97,18 +74,33 @@ def from_image(oldlastmodstr=None):
     saving = (pixel(x, 285) == COLOR_ORANGE)
     d[h] = (power, saving)
 
-  return {
+  r = {
     'usage': d,
-    'usage-updated': modified,
+    'usage-updated': modified,	# UTC
     'lastmodstr': lastmodstr,
   }
 
-def from_web(oldlastmodstr=None):
-  d = from_image(oldlastmodstr)
-  if not d:
-    return None
-  d.update(from_text())
-  return d
+  page = urllib2.urlopen(PAGE_URL)
+  page = page.read()
+
+  m = RE_CAPACITY.search(page)
+  if not m:
+    raise RuntimeError
+  capacity = m.group(1)
+  capacity = int(capacity.replace(',', ''))
+  t = m.group(2)
+  t = time.strptime(t + ' 2011', '%b %d. %H:%M %Y')
+  t = time.mktime(t) - 60*60*9
+  t = datetime.datetime.utcfromtimestamp(t)
+
+  r.update({
+    'capacity': capacity,
+    'capacity-updated': t,	# UTC
+  })
+
+  import pprint
+  pprint.pprint(r)
+  return r
 
 def main():
   locale.setlocale(locale.LC_ALL, 'C')
