@@ -33,6 +33,8 @@
 
     <h2>APIの例</h2>
     <p>
+      URLに日時を与えて、単純にGETしてください。<br/>
+      データが存在しない場合には404のエラーになります。
       <ul>
 	<li>
 	  <a href="http://tepco-usage-api.appspot.com/latest.json">http://tepco-usage-api.appspot.com/latest.json</a><br/>
@@ -41,20 +43,20 @@
 	<li>
 	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json</a><br/>
 	  指定された日時の電力使用状況を返します。<br/>
-	  URLは、/YYYY/MM/DD/HH.jsonという形式です。<br/>
-	  月日時は、1桁でも2桁でもかまいません。
+	  URLは/YYYY/MM/DD/HH.jsonという形式です。<br/>
+	  月日時は1桁でも2桁でもかまいません。
 	</li>
 	<li>
 	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}.json</a><br/>
 	  指定された日の毎時の電力使用状況を、配列として返します。<br/>
-	  URLは、/YYYY/MM/DD.jsonという形式です。<br/>
-	  月日は、1桁でも2桁でもかまいません。
+	  URLは/YYYY/MM/DD.jsonという形式です。<br/>
+	  月日は1桁でも2桁でもかまいません。
 	</li>
 	<li>
 	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}.json</a><br/>
 	  指定された月の毎日毎時の電力使用状況を、配列として返します。<br/>
-	  URLは、/YYYY/MM.jsonという形式です。<br/>
-	  月は、1桁でも2桁でもかまいません。
+	  URLは/YYYY/MM.jsonという形式です。<br/>
+	  月は1桁でも2桁でもかまいません。
 	</li>
       </ul>
     </p>
@@ -83,6 +85,24 @@
 	<dt>saving</dt>
 	<dd>この時刻に計画停電が実施されていればtrue</dd>
       </dl>
+    </p>
+
+    <h2>履歴</h2>
+    <p>
+      <ul>
+	<li>
+	  2011-3-23
+	  電力量を10万kW単位に切り上げていたのをやめました。
+	</li>
+	<li>
+	  2011-3-23
+	  このページ先頭に、現在の最新状況を表示するようにしました。
+	</li>
+	<li>
+	  2011-3-23
+	  公開
+	</li>
+      </ul>
     </p>
 
     <hr/>

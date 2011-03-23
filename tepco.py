@@ -70,7 +70,6 @@ def from_web(oldlastmodstr=None):
     if count == 0:
       break
     power = 6000 * count / (285 - 55 + 2)
-    power = (power + 9) / 10 * 10
     saving = (pixel(x, 285) == COLOR_ORANGE)
     d[h] = (power, saving)
 
