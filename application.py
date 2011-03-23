@@ -4,7 +4,7 @@
 # Copyright (c) 2011 by Shigeru KANEMOTO
 #
 
-from flask import Flask, render_template, jsonify, abort, Response, json
+from flask import Flask, render_template, request, abort, Response, json
 app = Flask(__name__)
 app.debug = True
 
@@ -91,6 +91,17 @@ def update_from_tepco():
     ).put()
   return ''
 
+@app.route('/')
+def top():
+  usage = Usage.all().order('-entryfor').get()
+  if usage:
+    today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
+    ratio = round(usage.usage * 100.0 / usage.capacity)
+  else:
+    today = datetime.datetime.now()
+    ratio = 0
+  return render_template('top.html', usage=usage, today=today, ratio=ratio)
+
 def dict_from_usage(usage):
   return {
     'entryfor': str(usage.entryfor),
@@ -105,23 +116,21 @@ def dict_from_usage(usage):
     'capacity_updated': str(usage.capacity_updated),
   }
 
-@app.route('/')
-def top():
-  usage = Usage.all().order('-entryfor').get()
-  if usage:
-    today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
-    ratio = round(usage.usage * 100.0 / usage.capacity)
+def json_or_jsonp(data):
+  callback = request.args.get('callback')
+  data = json.dumps(data, indent=2)
+  if callback:
+    return Response('%s(%s)' % (callback, data), mimetype='text/javascript')
   else:
-    today = datetime.datetime.now()
-    ratio = 0
-  return render_template('top.html', usage=usage, today=today, ratio=ratio)
+    return Response(data, mimetype='application/json')
 
 @app.route('/latest.json')
 def latest():
   usage = Usage.all().order('-entryfor').get()
   if not usage:
     abort(404)
-  return jsonify(dict_from_usage(usage))
+  # XXX security risk
+  return json_or_jsonp(dict_from_usage(usage))
 
 @app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
@@ -133,7 +142,8 @@ def hour(year, month, day, hour):
   usage = usage.get()
   if not usage:
     abort(404)
-  return jsonify(dict_from_usage(usage))
+  # XXX security risk
+  return json_or_jsonp(dict_from_usage(usage))
 
 @app.route('/<int:year>/<int:month>/<int:day>.json')
 def day(year, month, day):
@@ -146,7 +156,7 @@ def day(year, month, day):
   if len(usage) == 0:
     abort(404)
   # XXX security risk
-  return Response(json.dumps(usage, indent=2), mimetype='application/json')
+  return json_or_jsonp(usage)
 
 @app.route('/<int:year>/<int:month>.json')
 def month(year, month):
@@ -158,4 +168,4 @@ def month(year, month):
   if len(usage) == 0:
     abort(404)
   # XXX security risk
-  return Response(json.dumps(usage, indent=2), mimetype='application/json')
+  return json_or_jsonp(usage)

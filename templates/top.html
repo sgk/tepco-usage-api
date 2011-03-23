@@ -59,27 +59,25 @@
 
     <h2>APIの例</h2>
     <p>
-      URLに日時を与えて、単純にGETしてください。<br/>
-      データが存在しない場合には404のエラーになります。
       <ul>
 	<li>
-	  <a href="http://tepco-usage-api.appspot.com/latest.json">http://tepco-usage-api.appspot.com/latest.json</a><br/>
+	  <a href="/latest.json">http://tepco-usage-api.appspot.com/latest.json</a><br/>
 	  最新の電力使用状況を返します。
 	</li>
 	<li>
-	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json</a><br/>
+	  <a href="/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}/{{ today.hour }}.json</a><br/>
 	  指定された日時の電力使用状況を返します。<br/>
 	  URLは/YYYY/MM/DD/HH.jsonという形式です。<br/>
 	  月日時は1桁でも2桁でもかまいません。
 	</li>
 	<li>
-	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}.json</a><br/>
+	  <a href="/{{ today.year }}/{{ today.month }}/{{ today.day }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}/{{ today.day }}.json</a><br/>
 	  指定された日の毎時の電力使用状況を、配列として返します。<br/>
 	  URLは/YYYY/MM/DD.jsonという形式です。<br/>
 	  月日は1桁でも2桁でもかまいません。
 	</li>
 	<li>
-	  <a href="http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}.json</a><br/>
+	  <a href="/{{ today.year }}/{{ today.month }}.json">http://tepco-usage-api.appspot.com/{{ today.year }}/{{ today.month }}.json</a><br/>
 	  指定された月の毎日毎時の電力使用状況を、配列として返します。<br/>
 	  URLは/YYYY/MM.jsonという形式です。<br/>
 	  月は1桁でも2桁でもかまいません。
@@ -87,8 +85,19 @@
       </ul>
     </p>
 
-    <h2>データの説明</h2>
+    <h2>APIの使い方</h2>
     <p>
+      <ul>
+	<li>URLに日時を与えて、単純にGETしてください。</li>
+	<li>URLの最後に「?callback=<i>コールバック関数名</i>」を付けると、JSONPになります。</li>
+	<li>データが存在しない場合には404のエラーになります。</li>
+	<li>Adobe Flashのために、「/crossdomain.xml」が有ります。</li>
+      </ul>
+    </p>
+
+    <p>
+      以下のようなデータが返ってきます。
+      日あるいは月のデータを取得すると、配列の中に以下のようなデータが並んだ物が返ってきます。
       <dl>
 	<dt>year</dt>
 	<dd>年</dd>
@@ -127,6 +136,10 @@
     <h2>履歴</h2>
     <p>
       <ul>
+	<li>
+	  2011-3-24 JSONPに対応しました。
+	  Adobe Flashのための「/crossdomain.xml」を置きました。
+	</li>
 	<li>
 	  2011-3-24
 	  東京電力がCSV形式で数値を提供してくれるようになったので、このデータも使用するようにしました。
