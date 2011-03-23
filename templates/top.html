@@ -11,7 +11,7 @@
       <p>
 	時刻：{{ usage.year }}/{{ usage.month }}/{{ usage.day }} {{ usage.hour }}時台<br/>
 	計画停電：{{ "実施中" if usage.saving else "実施無し" }}<br/>
-	使用率：{{ usage.usage / usage.capacity * 100 }}%<br/>
+	使用率：{{ ratio }}%<br/>
 	消費電力：{{ usage.usage }}万kW<br/>
 	供給可能最大電力：{{ usage.capacity }}万kW
       </p>

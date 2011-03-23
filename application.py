@@ -112,7 +112,8 @@ def top():
     today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
   else:
     today = timedate.timedate.now()
-  return render_template('top.html', usage=usage, today=today)
+  ratio = round(usage.usage * 100.0 / usage.capacity)
+  return render_template('top.html', usage=usage, today=today, ratio=ratio)
 
 @app.route('/latest.json')
 def latest():
