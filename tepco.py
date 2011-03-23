@@ -97,8 +97,6 @@ def from_web(oldlastmodstr=None):
     'capacity-updated': t,	# UTC
   })
 
-  import pprint
-  pprint.pprint(r)
   return r
 
 def main():
