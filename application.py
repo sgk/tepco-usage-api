@@ -108,7 +108,10 @@ def dict_from_usage(usage):
 @app.route('/')
 def top():
   usage = Usage.all().order('-entryfor').get()
-  today = jst_from_utc(usage.usage_updated) if usage else timedate.timedate.now()
+  if usage:
+    today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
+  else:
+    today = timedate.timedate.now()
   return render_template('top.html', usage=usage, today=today)
 
 @app.route('/latest.json')
