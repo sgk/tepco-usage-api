@@ -15,7 +15,8 @@ import locale
 import pygif
 
 PAGE_URL = 'http://www.tepco.co.jp/en/forecast/html/index-e.html'
-IMAGE_URL = 'http://www.tepco.co.jp/en/forecast/html/images/juyo-e.gif'
+IMAGE_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.gif'
+CSV_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.csv'
 RE_CAPACITY = re.compile('Today\'s Maximum Capacity&nbsp;:&nbsp;([\d,]+)&nbsp;10&nbsp;thousand&nbsp;kW \(([a-zA-Z]{3} \d{1,2}. \d{1,2}:\d{2}) Update\)')
 
 COLOR_PINK = 106
@@ -59,22 +60,24 @@ def from_web(oldlastmodstr=None):
     if pixel(x, 284) == COLOR_BLACK:
       comb.append(x + 1)
 
-  d = {}
+  savings = []
   for h, x in zip(range(24), comb):
-    count = 0
-    for y in range(285, 55, -1):
-      color = frequent_color([pixel(xx, y) for xx in range(x, x + 21)])
-      if color == COLOR_YELLOW:
-	break
-      count += 1
-    if count == 0:
+    savings.append(pixel(x, 285) == COLOR_ORANGE)
+
+  usage = {}
+  csv = urllib2.urlopen(CSV_URL)
+  csv.readline()
+  csv.readline()
+  for line in csv:
+    line = line.split(',')
+    power = int(line[2])
+    if power == 0:
       break
-    power = 6000 * count / (285 - 55 + 2)
-    saving = (pixel(x, 285) == COLOR_ORANGE)
-    d[h] = (power, saving)
+    hour = int(line[1].split(':')[0])
+    usage[hour] = (power, savings[hour])
 
   r = {
-    'usage': d,
+    'usage': usage,
     'usage-updated': modified,	# UTC
     'lastmodstr': lastmodstr,
   }
