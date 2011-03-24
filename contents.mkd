@@ -27,12 +27,14 @@ APIなので、プログラマの方向けです。
 
 ### Twitterボット
 
+* 【東電】みんなの節電bot @setuden_tokyo（tsuyoshi kanekoさん @tsuyoshi_osiire）
 * 東京電力 使用状況 @touden_now（@yusuketsuikiさん）
 * 東電使用状況なう @tepcousagebot（@zenjiroさん）
 * 東京電力供給状況Bot @kubotter_jp（@jiroさん）
 * 東電の使用状況 @denden_bot
 
 ### Chrome拡張
+* [TEPCO - Power Usage Checker](https://chrome.google.com/webstore/detail/gjlmabfkhojibpdhdcdkagiplbmkcgfd) （大石哲生さん @_tetsuwo）
 * [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng) （やまりょーさん）
 * [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) （@yoshikinokoさん）
 
@@ -45,6 +47,9 @@ APIなので、プログラマの方向けです。
 
 ### その他色々
 
+* ツイッタークライアント[ついっぷるのウィジェット](http://z.twipple.jp/) （@twipplesanさん）
+* mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307) （@mei_ichikuraさん）
+* Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856) （かずきさん @okazuki）
 * webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280) （@kazuki_waさん）
 * ブラビア用ウィジェット [節電メーター](http://d.hatena.ne.jp/kumapo/20110324) （@also_kumapoさん）
 * 携帯サイト [imile.jp](http://imile.jp/tepco) （イマイルさん @imilejp）
