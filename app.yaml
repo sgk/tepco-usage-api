@@ -20,6 +20,9 @@ handlers:
 - url: /static/.*
   static_files: static/\1
   upload: static/(.*)
+- url: /crossdomain.xml
+  static_files: crossdomain.xml
+  upload: crossdomain.xml
 
 builtins:
 - datastore_admin: on

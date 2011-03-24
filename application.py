@@ -91,6 +91,17 @@ def update_from_tepco():
     ).put()
   return ''
 
+@app.route('/')
+def top():
+  usage = Usage.all().order('-entryfor').get()
+  if usage:
+    today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
+    ratio = round(usage.usage * 100.0 / usage.capacity)
+  else:
+    today = datetime.datetime.now()
+    ratio = 0
+  return render_template('top.html', usage=usage, today=today, ratio=ratio)
+
 def dict_from_usage(usage):
   return {
     'entryfor': str(usage.entryfor),
@@ -133,16 +144,6 @@ def resultHundler(obj):
 
   return ret;
 
-@app.route('/')
-def top():
-  usage = Usage.all().order('-entryfor').get()
-  if usage:
-    today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
-  else:
-    today = timedate.timedate.now()
-  ratio = round(usage.usage * 100.0 / usage.capacity)
-  return render_template('top.html', usage=usage, today=today, ratio=ratio)
-
 @app.route('/latest.json')
 def latest():
   usage = Usage.all().order('-entryfor').get()
@@ -176,3 +177,4 @@ def month(year, month):
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
   return resultHundler(usage)
+
