@@ -123,10 +123,7 @@ def resultHandler(data):
   if not data:
     abort(404)
 
-  if request.method == 'POST':
-    callback = request.form.get('callback')
-  else:
-    callback = request.args.get('callback')
+  callback = request.form.get('callback') or request.args.get('callback')
   if callback and not RE_CALLBACK.search(callback):
     abort(404)
 
