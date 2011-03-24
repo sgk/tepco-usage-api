@@ -22,11 +22,9 @@ APIなので、プログラマの方向けです。
 アプリを作った方はお知らせください。ここに掲載します。  
 
 ### Mac用アプリ
-
 * [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html) （サイフォン合同会社 @scivoneさん）
 
 ### Twitterボット
-
 * 【東電】みんなの節電bot @setuden_tokyo（tsuyoshi kanekoさん @tsuyoshi_osiire）
 * 東京電力 使用状況 @touden_now（@yusuketsuikiさん）
 * 東電使用状況なう @tepcousagebot（@zenjiroさん）
@@ -39,14 +37,13 @@ APIなので、プログラマの方向けです。
 * [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) （@yoshikinokoさん）
 
 ### Android用
-
 * [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) （@shin1201さん）
 * [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  （ひさきさん @moyashimanjyu）  
   本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
 * [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
 
 ### その他色々
-
+* AIRアプリ [停電リマインダー](http://z.twipple.jp/) （@jtc21さん）
 * ツイッタークライアント[ついっぷるのウィジェット](http://z.twipple.jp/) （@twipplesanさん）
 * mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307) （@mei_ichikuraさん）
 * Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856) （かずきさん @okazuki）
