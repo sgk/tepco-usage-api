@@ -1,52 +1,55 @@
 ## 概要
 
-APIなので、プログラマの方向けです。  
+APIなので、プログラマの方向けです。
 プログラマじゃない方は、この下の「応用例」をご覧ください。
 
-東京電力の電力使用状況を返すAPIです。  
-東京電力がCSVを提供してくれるようになりましたが、依然として情報量が少ないため、CSVに加えて画像データ、文字データを解析する事で補っています。  
-東京電力が提供してくれる情報は、その形式が日々変化しているため、個々のアプリケーションで直接に解釈するのは難しいと思います。  
-また、東京電力では、当日のデータしか提供してくれません。  
-このAPIを使っていただけば、これらの問題が解決します。  
+東京電力の電力使用状況を返すAPIです。
+東京電力がCSVを提供してくれるようになりましたが、依然として情報量が少ないため、CSVに加えて画像データ、文字データを解析する事で補っています。
+東京電力が提供してくれる情報は、その形式が日々変化しているため、個々のアプリケーションで直接に解釈するのは難しいと思います。
+また、東京電力では、当日のデータしか提供してくれません。
+このAPIを使っていただけば、これらの問題が解決します。
 
 元のデータは、<http://www.tepco.co.jp/en/forecast/html/index-e.html>から得られる、CSVデータ、画像データ、文字データです。
-東京電力のサイトに与える負荷は最低限となるように配慮しています。  
-2011/3/23以降のデータをすべて保持する予定です。  
-画像データ、文字データの解析は「仕様」が無い中で現物合わせでやっているわけで、急にうまくいかなくなる可能性があります。  
-データが更新されていない、値がおかしいという状況があったら、教えてください。  
-ご連絡は、このページ最後に記したTwitterアカウントにお願いします。  
-
+東京電力のサイトに与える負荷は最低限となるように配慮しています。
+2011/3/23以降のデータをすべて保持する予定です。
+画像データ、文字データの解析は「仕様」が無い中で現物合わせでやっているわけで、急にうまくいかなくなる可能性があります。
+データが更新されていない、値がおかしいという状況があったら、教えてください。
+ご連絡は、このページ最後に記したTwitterアカウントにお願いします。
 
 ## 応用例
 
 プログラマじゃない方が今すぐ使える応用例です。  
 アプリを作った方はお知らせください。ここに掲載します。  
 
-* Mac用アプリ [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html) サイフォン合同会社/@scivone さん
+### Mac用アプリ
 
-### twitterボット
+* [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html) （サイフォン合同会社 @scivoneさん）
 
-* 東京電力 使用状況 @touden_now @yusuketsuikiさん
-* 東電使用状況なう @tepcousagebot @zenjiroさん
-* 東京電力供給状況Bot @kubotter_jp @jiroさん
-*東電の使用状況 @denden_bot
+### Twitterボット
 
-### chrome拡張
-* [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng) やまりょーさん
-* [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) @yoshikinoko さん
+* 東京電力 使用状況 @touden_now（@yusuketsuikiさん）
+* 東電使用状況なう @tepcousagebot（@zenjiroさん）
+* 東京電力供給状況Bot @kubotter_jp（@jiroさん）
+* 東電の使用状況 @denden_bot
 
-### android用
+### Chrome拡張
+* [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng) （やまりょーさん）
+* [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) （@yoshikinokoさん）
 
-* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) @shin1201さん
-* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  ひさきさん/@moyashimanjyu 本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
+### Android用
+
+* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) （@shin1201さん）
+* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  （ひさきさん @moyashimanjyu）  
+  本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
 * [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
 
 ### その他色々
 
-* webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280) @kazuki_wa さん
-* ブラビア用ウィジェット [節電メーター](http://d.hatena.ne.jp/kumapo/20110324) @also_kumapo さん
-* 携帯サイト [imile.jp](http://imile.jp/tepco) イマイルさん/@imilejp
-* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)  Iwasaki Teruyukiさん / @twk PHP言語から使用した例です。
+* webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280) （@kazuki_waさん）
+* ブラビア用ウィジェット [節電メーター](http://d.hatena.ne.jp/kumapo/20110324) （@also_kumapoさん）
+* 携帯サイト [imile.jp](http://imile.jp/tepco) （イマイルさん @imilejp）
+* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)  （Iwasaki Teruyukiさん @twk）  
+  PHP言語から使用した例です。
 
 ## APIの例
 
@@ -75,9 +78,8 @@ APIなので、プログラマの方向けです。
 * データが存在しない場合には404のエラーになります。
 * Adobe Flashのために、「[/crossdomain.xml](/crossdomain.xml)」が有ります。
 
-以下のようなデータが返ってきます。  
+以下のようなデータが返ってきます。
 日あるいは月のデータを取得すると、配列の中に以下のようなデータが並んだ物が返ってきます。
-
 
 year
 : 年
@@ -109,7 +111,6 @@ usage_updated
 saving
 : この時間帯に計画停電が実施されていればtrue
 
-
 ## ご注意
 
 * 特に断ること無く使ってくださって結構です。
@@ -124,19 +125,17 @@ saving
 
 ## 履歴 
 
-
 2011-3-24
 : @withgodさんからの [プルリクエスト](https://github.com/sgk/tepco-usage-api/pull/1)をマージしました。JSONPのcallback関数名をチェックします。POSTも使えるようにしました。
 
+2011-3-24
+:   JSONPに対応しました。
+    Adobe Flashのための「[/crossdomain.xml](/crossdomain.xml)」を置きました。
 
 2011-3-24
-:   JSONPに対応しました。  
-    Adobe Flashのための「/crossdomain.xml」を置きました。
-
-2011-3-24
-:   東京電力がCSV形式で数値を提供してくれるようになったので、このデータも使用するようにしました。  
-    これに伴い、電力量は10万kW単位になりました。  
-    やはり、最大供給可能電力、計画停電の実施かどうかなどのデータの取得のために、HTMLテキストや画像データも使用しています。  
+:   東京電力がCSV形式で数値を提供してくれるようになったので、このデータも使用するようにしました。
+    これに伴い、電力量は10万kW単位になりました。
+    やはり、最大供給可能電力、計画停電の実施かどうかなどのデータの取得のために、HTMLテキストや画像データも使用しています。
     23日の記録を、CSVから得た値に修正しました。
 
 2011-3-23
@@ -148,7 +147,7 @@ saving
 2011-3-23
 : 公開
 
-
+----
 更新日：2011-3-24  
 連絡先：@ssci  
 ソース：<https://github.com/sgk/tepco-usage-api>

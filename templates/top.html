@@ -1,14 +1,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-    <script src="http://platform.twitter.com/anywhere.js?id=APIKEY&v=1"></script>
     <title>東京電力電力供給状況API</title>
-    <script type="text/javascript">
-    twttr.anywhere(function(twitter) {
-          twitter.hovercards();
-          twitter.linkifyUsers();
-    });
-    </script>
   </head>
   <body>
     <h1>東京電力電力供給状況API</h1>
@@ -26,9 +19,6 @@
       </p>
     {% endif %}
  
-{% autoescape false %}
     {{ contents }}
-{% endautoescape %}
-
   </body>
 </html>

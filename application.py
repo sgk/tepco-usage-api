@@ -4,7 +4,10 @@
 # Copyright (c) 2011 by Shigeru KANEMOTO
 #
 
-from flask import Flask, render_template, jsonify, abort, Response, json, request
+from flask import (
+  Flask, request, Response, abort, json,
+  render_template, render_template_string, Markup,
+)
 app = Flask(__name__)
 app.debug = True
 
@@ -98,6 +101,8 @@ def update_from_tepco():
     entry.put()
   return ''
 
+RE_TWITTER_ID = re.compile(r'@([a-zA-Z0-9_]+)')
+
 @app.route('/')
 def top():
   usage = Usage.all().order('-entryfor').get()
@@ -108,12 +113,20 @@ def top():
     today = datetime.datetime.now()
     ratio = 0
 
-  contents = markdown.markdown(render_template('contents.mkd', today=today), ['def_list'])
+  contents = file('contents.mkd').read()
+  contents = contents.decode('utf-8')
+  contents = markdown.markdown(contents, ['def_list'])
+  contents = render_template_string(contents, today=today)
+  contents = RE_TWITTER_ID.sub(r'<a href="http://twitter.com/\1">@\1</a>', contents)
+  contents = Markup(contents)
 
-  return render_template('top.html', usage=usage, today=today, ratio=ratio, contents=contents)
+  return render_template(
+    'top.html',
+    usage=usage, today=today, ratio=ratio, contents=contents
+  )
 
 def dict_from_usage(usage):
-  return {
+  return usage and {
     'entryfor': str(usage.entryfor),
     'year': usage.year,
     'month': usage.month,
