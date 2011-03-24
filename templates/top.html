@@ -6,6 +6,8 @@
   <body>
     <h1>東京電力電力供給状況API</h1>
 
+    <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftepco-usage-api.appspot.com%2F&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>
+
     {% if usage %}
       <h2>最新状況</h2>
       <p>
@@ -19,6 +21,10 @@
 
     <h2>概要</h2>
     <p>
+      APIなので、主にプログラマの方向けです。
+      プログラマじゃない方は、この下の「応用例」をご覧ください。
+    </p>
+    <p>
       <a href="http://www.tepco.co.jp/en/forecast/html/index-e.html">http://www.tepco.co.jp/en/forecast/html/index-e.html</a>からHTMLの文字データと画像データを取得し、解析する事によって、使用状況を「推定」しています。
       東京電力のサイトに与える負荷は最低限となるように配慮しています。
       2011/3/23以降のデータをすべて保持する予定です。
@@ -26,8 +32,28 @@
       ある程度は自動的に追従するようにしてありますが、追従がうまくいかない場合には、手作業で追従させる必要があります。
       データが更新されていない、値がおかしいという状況があったら、教えてください。
       ご連絡は、このページ最後に記したTwitterアカウントにお願いします。
+    </p>
+
+    <h2>応用例</h2>
+    <p>
+      プログラマじゃない方が今すぐ使える応用例です。
+      アプリを作った方はお知らせください。ここに掲載します。
       <ul>
-	<li>UTCにするべきじゃなかったかも…</li>
+	<li>
+	  Twitterボット <a href="http://twitter.com/kubotter_jp">東京電力供給状況Bot @kubotter_jp</a>
+	</li>
+	<li>
+	  Android用アプリ <a href="https://market.android.com/details?id=me.nakaya.dev.tepcooalert">(非公式)東京電力電力需給チェッカー</a>
+	</li>
+	<li>
+	  Chrome用機能拡張 <a href="https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng">でんきしようりょう</a>（やまりょーさん）
+	</li>
+	<li>
+	  Chrome用機能拡張 <a href="https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn">東京電力の電力使用状況</a>（<a href="http://twitter.com/yoshikinoko">@yoshikinoko</a>さん）
+	</li>
+	<li>
+	  Twitterボット <a href="http://twitter.com/denden_bot">東電の使用状況 @denden_bot</a>
+	</li>
       </ul>
     </p>
 
@@ -71,7 +97,7 @@
 	<dt>day</dt>
 	<dd>日</dd>
 	<dt>hour</dt>
-	<dd>時刻（24時間制）</dd>
+	<dd>時刻（24時間制、日本時間）</dd>
 	<dt>entryfor</dt>
 	<dd>この時刻の文字列（<b>UTCなので注意</b>）</dd>
 	<dt>capacity</dt>
@@ -79,12 +105,27 @@
 	<dt>capacity_updated</dt>
 	<dd>供給可能最大電力が決定された日時（<b>UTCなので注意</b>）</dd>
 	<dt>usage</dt>
-	<dd>この時刻の消費電力（万kW）</dd>
+	<dd>この時間帯の消費電力（万kW）</dd>
 	<dt>usage_updated</dt>
 	<dd>この消費電力のデータが更新された日時（<b>UTCなので注意</b>）</dd>
 	<dt>saving</dt>
-	<dd>この時刻に計画停電が実施されていればtrue</dd>
+	<dd>この時間帯に計画停電が実施されていればtrue</dd>
       </dl>
+    </p>
+
+    <h2>メモ</h2>
+    <p>
+      <ul>
+	<li>
+	  本来であれば、東京電力自体がデータでの提供をしてくれるべきと思います。
+	  東京電力が提供してくれるようになったら、そのデータを使うようにします。
+	</li>
+	<li>
+	  Google App Engine上で動作させています。
+	  ある程度の負荷には耐えるはずです。
+	</li>
+	<li>UTCにするべきじゃなかったかも…</li>
+      </ul>
     </p>
 
     <h2>履歴</h2>
@@ -106,7 +147,7 @@
     </p>
 
     <hr/>
-    更新日：2011-3-23<br/>
+    更新日：2011-3-24<br/>
     連絡先：<a href="http://twitter.com/ssci">http://twitter.com/ssci</a><br/>
     ソース：<a href="https://github.com/sgk/tepco-usage-api">https://github.com/sgk/tepco-usage-api</a>
   </body>
