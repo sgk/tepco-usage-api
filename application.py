@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.debug = True
 
 from google.appengine.ext import db
-import datetime, re
+import datetime
+import re
 import tepco
 
 ################################################################################
@@ -116,38 +117,29 @@ def dict_from_usage(usage):
     'capacity_updated': str(usage.capacity_updated),
   }
 
-def resultHundler(obj):
-  if not obj:
+RE_CALLBACK = re.compile(r'^[a-zA-Z0-9_.]+$')
+
+def resultHandler(data):
+  if not data:
     abort(404)
 
-  if type(obj).__name__ == 'list' and  len(obj) == 0:
-    abort(404)
-
-  _callback = None
-  if request.method == "POST"  and request.form.get("callback") is not None:
-    _callback = request.form.get("callback")
-  elif request.args.get("callback") is not None:
-    _callback = request.args.get("callback")
-
-  ret = None
-  if _callback is not None and re.search(r'^[a-zA-Z0-9]+$', _callback):
-    # XXX security risk
-    if type(obj).__name__ == 'list':
-      ret = Response("%s(%s);"%(_callback, json.dumps(obj, indent=2)), mimetype='application/json')
-    else:
-      ret = Response("%s(%s);"%(_callback, json.dumps(dict_from_usage(obj), indent=2)), mimetype='application/json')
-  elif type(obj).__name__ == 'list' :
-    # XXX security risk
-    ret = Response(json.dumps(obj, indent=2), mimetype='application/json')
+  if request.method == 'POST':
+    callback = request.form.get('callback')
   else:
-    ret = jsonify(dict_from_usage(obj))
+    callback = request.args.get('callback')
+  if callback and not RE_CALLBACK.search(callback):
+    abort(404)
 
-  return ret;
+  data = json.dumps(data, indent=2)
+  if callback:
+    return Response('%s(%s);' % (callback, data), mimetype='text/javascript')
+  else:
+    return Response(data, mimetype='application/json')
 
 @app.route('/latest.json')
 def latest():
   usage = Usage.all().order('-entryfor').get()
-  return resultHundler(usage)
+  return resultHandler(dict_from_usage(usage))
 
 @app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
@@ -157,7 +149,7 @@ def hour(year, month, day, hour):
   usage = usage.filter('day =', day)
   usage = usage.filter('hour =', hour)
   usage = usage.get()
-  return resultHundler(usage)
+  return resultHandler(dict_from_usage(usage))
 
 @app.route('/<int:year>/<int:month>/<int:day>.json')
 def day(year, month, day):
@@ -167,7 +159,7 @@ def day(year, month, day):
   usage = usage.filter('day =', day)
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
-  return resultHundler(usage)
+  return resultHandler(usage)
 
 @app.route('/<int:year>/<int:month>.json')
 def month(year, month):
@@ -176,5 +168,5 @@ def month(year, month):
   usage = usage.filter('month =', month)
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
-  return resultHundler(usage)
+  return resultHandler(usage)
 

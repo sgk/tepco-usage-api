@@ -88,8 +88,8 @@
     <h2>APIの使い方</h2>
     <p>
       <ul>
-	<li>URLに日時を与えて、単純にGETしてください。</li>
-	<li>URLの最後に「?callback=<i>コールバック関数名</i>」を付けると、JSONPになります。</li>
+	<li>URLに日時を与えて、GETまたはPOSTしてください。</li>
+	<li>URLの最後に「?callback=<i>コールバック関数名</i>」を付けると、JSONPになります。関数名に使える文字は、英数字と「_」と「.」です。それ以外の文字が入っていると404のエラーになります。</li>
 	<li>データが存在しない場合には404のエラーになります。</li>
 	<li>Adobe Flashのために、「/crossdomain.xml」が有ります。</li>
       </ul>
@@ -136,6 +136,9 @@
     <h2>履歴</h2>
     <p>
       <ul>
+	<li>
+	  2011-3-24 <a href="https://github.com/withgod">withgodさん</a>からの<a href="https://github.com/sgk/tepco-usage-api/pull/1">プルリクエスト</a>をマージしました。JSONPのcallback関数名をチェックします。POSTも使えるようにしました。
+	</li>
 	<li>
 	  2011-3-24 JSONPに対応しました。
 	  Adobe Flashのための「/crossdomain.xml」を置きました。
