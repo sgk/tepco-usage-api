@@ -4,12 +4,12 @@
 # Copyright (c) 2011 by Shigeru KANEMOTO
 #
 
-from flask import Flask, render_template, jsonify, abort, Response, json
+from flask import Flask, render_template, jsonify, abort, Response, json, request
 app = Flask(__name__)
 app.debug = True
 
 from google.appengine.ext import db
-import datetime
+import datetime, re
 import tepco
 
 ################################################################################
@@ -105,6 +105,34 @@ def dict_from_usage(usage):
     'capacity_updated': str(usage.capacity_updated),
   }
 
+def resultHundler(obj):
+  if not obj:
+    abort(404)
+
+  if type(obj).__name__ == 'list' and  len(obj) == 0:
+    abort(404)
+
+  _callback = None
+  if request.method == "POST"  and request.form.get("callback") is not None:
+    _callback = request.form.get("callback")
+  elif request.args.get("callback") is not None:
+    _callback = request.args.get("callback")
+
+  ret = None
+  if _callback is not None and re.search(r'^[a-zA-Z0-9]+$', _callback):
+    # XXX security risk
+    if type(obj).__name__ == 'list':
+      ret = Response("%s(%s);"%(_callback, json.dumps(obj, indent=2)), mimetype='application/json')
+    else:
+      ret = Response("%s(%s);"%(_callback, json.dumps(dict_from_usage(obj), indent=2)), mimetype='application/json')
+  elif type(obj).__name__ == 'list' :
+    # XXX security risk
+    ret = Response(json.dumps(obj, indent=2), mimetype='application/json')
+  else:
+    ret = jsonify(dict_from_usage(obj))
+
+  return ret;
+
 @app.route('/')
 def top():
   usage = Usage.all().order('-entryfor').get()
@@ -118,9 +146,7 @@ def top():
 @app.route('/latest.json')
 def latest():
   usage = Usage.all().order('-entryfor').get()
-  if not usage:
-    abort(404)
-  return jsonify(dict_from_usage(usage))
+  return resultHundler(usage)
 
 @app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
@@ -130,9 +156,7 @@ def hour(year, month, day, hour):
   usage = usage.filter('day =', day)
   usage = usage.filter('hour =', hour)
   usage = usage.get()
-  if not usage:
-    abort(404)
-  return jsonify(dict_from_usage(usage))
+  return resultHundler(usage)
 
 @app.route('/<int:year>/<int:month>/<int:day>.json')
 def day(year, month, day):
@@ -142,10 +166,7 @@ def day(year, month, day):
   usage = usage.filter('day =', day)
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
-  if len(usage) == 0:
-    abort(404)
-  # XXX security risk
-  return Response(json.dumps(usage, indent=2), mimetype='application/json')
+  return resultHundler(usage)
 
 @app.route('/<int:year>/<int:month>.json')
 def month(year, month):
@@ -154,7 +175,4 @@ def month(year, month):
   usage = usage.filter('month =', month)
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
-  if len(usage) == 0:
-    abort(404)
-  # XXX security risk
-  return Response(json.dumps(usage, indent=2), mimetype='application/json')
+  return resultHundler(usage)
