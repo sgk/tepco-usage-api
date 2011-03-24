@@ -25,11 +25,17 @@
       プログラマじゃない方は、この下の「応用例」をご覧ください。
     </p>
     <p>
-      <a href="http://www.tepco.co.jp/en/forecast/html/index-e.html">http://www.tepco.co.jp/en/forecast/html/index-e.html</a>からHTMLの文字データと画像データ、使用量のCSVデータを取得し、解析する事によって、使用状況を「推定」しています。
+      東京電力の電力使用状況を返すAPIです。
+      東京電力がCSVを提供してくれるようになりましたが、依然として情報量が少ないため、CSVに加えて画像データ、文字データを解析する事で補っています。
+      東京電力が提供してくれる情報は、その形式が日々変化しているため、個々のアプリケーションで直接に解釈するのは難しいと思います。
+      また、東京電力では、当日のデータしか提供してくれません。
+      このAPIを使っていただけば、これらの問題が解決します。
+    </p>
+    <p>
+      元のデータは、<a href="http://www.tepco.co.jp/en/forecast/html/index-e.html">http://www.tepco.co.jp/en/forecast/html/index-e.html</a>から得られる、CSVデータ、画像データ、文字データです。
       東京電力のサイトに与える負荷は最低限となるように配慮しています。
       2011/3/23以降のデータをすべて保持する予定です。
-      東京電力は、どうやら手作業で更新しているらしく、ときどき、HTMLの内容や画像内の図形の位置が変わる事があります。
-      ある程度は自動的に追従するようにしてありますが、追従がうまくいかない場合には、手作業で追従させる必要があります。
+      画像データ、文字データの解析は「仕様」が無い中で現物合わせでやっているわけで、急にうまくいかなくなる可能性があります。
       データが更新されていない、値がおかしいという状況があったら、教えてください。
       ご連絡は、このページ最後に記したTwitterアカウントにお願いします。
     </p>
@@ -40,7 +46,34 @@
       アプリを作った方はお知らせください。ここに掲載します。
       <ul>
 	<li>
-	  Twitterボット <a href="http://twitter.com/kubotter_jp">東京電力供給状況Bot @kubotter_jp</a>
+	  Mac用アプリ <a href="http://scivone.com/info/2011/201103004.html">東京電力電力供給状況モニターアプリ TepcoMeter for Mac</a>（<a href="http://twitter.com/scivone">サイフォン合同会社</a>さん）
+	</li>
+	<li>
+	  Twitterボット <a href="http://twitter.com/touden_now">東京電力 使用状況 @touden_now</a>（<a href="http://twitter.com/yusuketsuiki">@yusuketsuiki</a>さん）
+	</li>
+	<li>
+	  webOS用アプリ <a href="http://d.hatena.ne.jp/LOT/20110324/1300937280">ぷれ電気</a>（<a href="http://twitter.com/kazuki_wa">@kazuki_wa</a>さん）
+	</li>
+	<li>
+	  ブラビア用ウィジェット <a href="http://d.hatena.ne.jp/kumapo/20110324">節電メーター</a>（<a href="http://twitter.com/also_kumapo">kumapo</a>さん）
+	</li>
+	<li>
+	  Android用ウィジェット <a href="https://market.android.com/details?id=org.ydeb.android.tepcousage">東京電力供給情報ウィジェット</a>（<a href="http://twitter.com/shin1201">@shin1201</a>さん）
+	</li>
+	<li>
+	  携帯サイト <a href="http://imile.jp/tepco">imile.jp</a>（<a href="http://twitter.com/imilejp">イマイル</a>さん）
+	</li>
+	<li>
+	  Twitterボット <a href="http://twitter.com/tepcousagebot">東電使用状況なう @tepcousagebot</a>（<a href="http://twitter.com/znj6">zenjiro</a>さん）
+	</li>
+	<li>
+	  Twitterボット <a href="http://twitter.com/kubotter_jp">東京電力供給状況Bot @kubotter_jp</a>（<a href="http://twitter.com/jiro1800">jiro</a>さん）
+	</li>
+	<li>
+	  Android用アプリ <a href="https://market.android.com/details?id=jp.rsn.meganecase">メ・ガ・ネ！メガネケ・エ・ス！</a>（<a href="http://twitter.com/moyashimanjyu">ひさき</a>さん）本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
+	</li>
+	<li>
+	  ブログ応用例 <a href="http://nonn-et-twk.net/twk/node/357">東京電力電力供給状況APIを使ってみました</a>（<a href="http://twitter.com/twk">Iwasaki Teruyuki</a>さん）PHP言語から使用した例です。
 	</li>
 	<li>
 	  Android用アプリ <a href="https://market.android.com/details?id=me.nakaya.dev.tepcooalert">(非公式)東京電力電力需給チェッカー</a>
@@ -120,6 +153,16 @@
 	<dt>saving</dt>
 	<dd>この時間帯に計画停電が実施されていればtrue</dd>
       </dl>
+    </p>
+
+    <h2>ご注意</h2>
+    <p>
+      <ul>
+	<li>特に断ること無く使ってくださって結構です。</li>
+	<li>5〜10分以上に1回程度のアクセスでお願いします。どうせ、データは1時間に1回しか更新されませんし。</li>
+	<li>サービスが提供されない事、データが間違っている事、遅延する事、廃止される事が有り得ます。アプリのユーザの方にも周知をお願いします。</li>
+	<li>クレジットの表示は特に求めません。ご自由にどうぞ。</li>
+      </ul>
     </p>
 
     <h2>メモ</h2>
