@@ -11,6 +11,7 @@ app.debug = True
 from google.appengine.ext import db
 import datetime
 import re
+import markdown
 import tepco
 
 ################################################################################
@@ -106,7 +107,10 @@ def top():
   else:
     today = datetime.datetime.now()
     ratio = 0
-  return render_template('top.html', usage=usage, today=today, ratio=ratio)
+
+  contents = markdown.markdown(render_template('contents.mkd', today=today), ['def_list'])
+
+  return render_template('top.html', usage=usage, today=today, ratio=ratio, contents=contents)
 
 def dict_from_usage(usage):
   return {
