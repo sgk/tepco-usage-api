@@ -7,10 +7,8 @@
 #
 
 import urllib2
-import re
-import time
 import datetime
-import locale
+import re
 
 import pygif
 
@@ -48,24 +46,28 @@ def from_web(oldlastmodstr=None):
     if power == 0:
       break
     hour = int(line[1].split(':')[0])
-    usage[hour] = power
+    usage[hour] = (power, False)
 
   #
   # Rolling blackout
   #
-  image = urllib2.urlopen(IMAGE_URL)
-  image = pygif.GifDecoder(image.read())
-  image = image.images[0]
-  def pixel(x, y):
-    return image.pixels[y * image.width + x]
+  try:
+    image = urllib2.urlopen(IMAGE_URL)
+    image = pygif.GifDecoder(image.read())
+    image = image.images[0]
+    def pixel(x, y):
+      return image.pixels[y * image.width + x]
 
-  comb = []
-  for x in range(53, 570):
-    if pixel(x, 284) == COLOR_BLACK:
-      comb.append(x + 1)
+    comb = []
+    for x in range(53, 570):
+      if pixel(x, 284) == COLOR_BLACK:
+	comb.append(x + 1)
 
-  for h in usage.keys():
-    usage[h] = (usage[h], (pixel(x, 285) == COLOR_ORANGE))
+    for h in usage.keys():
+      usage[h] = (usage[h][0], (pixel(x, 285) == COLOR_ORANGE))
+  except:
+    pass
+
   r['usage'] = usage
 
   #
@@ -89,6 +91,7 @@ def from_web(oldlastmodstr=None):
   return r
 
 def main():
+  import locale
   locale.setlocale(locale.LC_ALL, 'C')
   import pprint
   pprint.pprint(from_web())

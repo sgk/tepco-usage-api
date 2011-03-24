@@ -77,19 +77,24 @@ def update_from_tepco():
     entryfor = utc_from_jst(jst.replace(hour=hour))
     entry = Usage.all().filter('entryfor =', entryfor).get()
     if entry:
-      continue
-    Usage(
-      entryfor=entryfor,
-      year=entryfor.year,
-      month=jst.month,
-      day=jst.day,
-      hour=hour,
-      usage=usage,
-      saving=saving,
-      usage_updated=usage_updated,
-      capacity=capacity,
-      capacity_updated=capacity_updated,
-    ).put()
+      if entry.usage != usage:
+	entry.usage = usage
+	entry.usage_updated = usage_updated
+      entry.saving = saving
+    else:
+      entry = Usage(
+	entryfor=entryfor,
+	year=entryfor.year,
+	month=jst.month,
+	day=jst.day,
+	hour=hour,
+	usage=usage,
+	saving=saving,
+	usage_updated=usage_updated,
+	capacity=capacity,
+	capacity_updated=capacity_updated,
+      )
+    entry.put()
   return ''
 
 @app.route('/')

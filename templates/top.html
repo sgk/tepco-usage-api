@@ -122,9 +122,9 @@
     <p>
       <ul>
 	<li>URLに日時を与えて、GETまたはPOSTしてください。</li>
-	<li>URLの最後に「?callback=<i>コールバック関数名</i>」を付けると、JSONPになります。関数名に使える文字は、英数字と「_」と「.」です。それ以外の文字が入っていると404のエラーになります。</li>
+	<li>URLの最後に「?callback=<i>コールバック関数名</i>」を付けるか、POSTデータに「callback=<i>コールバック関数名</i>」を含めると、JSONPになります。関数名に使える文字は、英数字と「_」と「.」です。それ以外の文字が入っていると404のエラーになります。</li>
 	<li>データが存在しない場合には404のエラーになります。</li>
-	<li>Adobe Flashのために、「/crossdomain.xml」が有ります。</li>
+	<li>Adobe Flashのために、「<a href="/crossdomain.xml">/crossdomain.xml</a>」が有ります。</li>
       </ul>
     </p>
 
