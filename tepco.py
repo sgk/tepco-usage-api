@@ -64,6 +64,7 @@ def from_web(oldlastmodstr=None):
 	comb.append(x + 1)
 
     for h in usage.keys():
+      x = comb.pop(0)
       usage[h] = (usage[h][0], (pixel(x, 285) == COLOR_ORANGE))
   except:
     pass
