@@ -1,0 +1,1 @@
+東京電力が発表する毎時の電力消費量を記録し、JSONで提供するAPIです。Google App Engineで動きます。
