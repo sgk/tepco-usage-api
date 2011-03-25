@@ -11,6 +11,7 @@ from flask import (
 app = Flask(__name__)
 app.debug = True
 
+from google.appengine.api import memcache
 from google.appengine.ext import db
 import datetime
 import re
@@ -99,6 +100,7 @@ def update_from_tepco():
 	capacity_updated=capacity_updated,
       )
     entry.put()
+  memcache.delete('latest.json')
   return ''
 
 RE_TWITTER_ID = re.compile(r'@([a-zA-Z0-9_]+)')
@@ -157,8 +159,13 @@ def resultHandler(data):
 
 @app.route('/latest.json')
 def latest():
+  usage = memcache.get('latest.json')
+  if usage:
+    return usage
   usage = Usage.all().order('-entryfor').get()
-  return resultHandler(dict_from_usage(usage))
+  usage = resultHandler(dict_from_usage(usage))
+  memcache.set('latest.json', usage)
+  return usage
 
 @app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
@@ -188,4 +195,3 @@ def month(year, month):
   usage = usage.order('entryfor')
   usage = [dict_from_usage(u) for u in usage]
   return resultHandler(usage)
-
