@@ -13,8 +13,10 @@ app.debug = True
 
 from google.appengine.api import memcache
 from google.appengine.ext import db
+
 import datetime
 import re
+
 import markdown
 import tepco
 
@@ -143,15 +145,22 @@ def dict_from_usage(usage):
 
 RE_CALLBACK = re.compile(r'^[a-zA-Z0-9_.]+$')
 
-def resultHandler(data):
-  if not data:
-    abort(404)
-
+def resultHandler(result, cachekey=None):
   callback = request.form.get('callback') or request.args.get('callback')
   if callback and not RE_CALLBACK.search(callback):
     abort(404)
 
-  data = json.dumps(data, indent=2)
+  if cachekey:
+    data = memcache.get(cachekey)
+    if not data:
+      data = result()
+      if not data:
+	abort(404)
+      data = json.dumps(data, indent=2)
+      memcache.set(cachekey, data)
+  else:
+    data = json.dumps(result, indent=2)
+
   if callback:
     return Response('%s(%s);' % (callback, data), mimetype='text/javascript')
   else:
@@ -159,13 +168,10 @@ def resultHandler(data):
 
 @app.route('/latest.json')
 def latest():
-  usage = memcache.get('latest.json')
-  if usage:
-    return usage
-  usage = Usage.all().order('-entryfor').get()
-  usage = resultHandler(dict_from_usage(usage))
-  memcache.set('latest.json', usage)
-  return usage
+  def compute():
+    usage = Usage.all().order('-entryfor').get()
+    return dict_from_usage(usage)
+  return resultHandler(compute, 'latest.json')
 
 @app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
@@ -175,7 +181,8 @@ def hour(year, month, day, hour):
   usage = usage.filter('day =', day)
   usage = usage.filter('hour =', hour)
   usage = usage.get()
-  return resultHandler(dict_from_usage(usage))
+  usage = dict_from_usage(usage)
+  return resultHandler(usage)
 
 @app.route('/<int:year>/<int:month>/<int:day>.json')
 def day(year, month, day):
