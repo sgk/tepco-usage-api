@@ -21,6 +21,16 @@ APIなので、プログラマの方向けです。
 プログラマじゃない方が今すぐ使える応用例です。  
 アプリを作った方はお知らせください。ここに掲載します。  
 
+### Android用
+* [がんばれ！東京電力](https://market.android.com/details?id=com.creams.android.tepcopower) （@creamsさん）
+* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) （@shin1201さん）
+* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  （ひさきさん @moyashimanjyu）  
+  本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
+* [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
+
+### iPhone用
+近日リリース見込み。
+
 ### Mac用アプリ
 * [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html) （サイフォン合同会社 @scivoneさん）
 
@@ -36,22 +46,25 @@ APIなので、プログラマの方向けです。
 * [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng) （やまりょーさん）
 * [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) （@yoshikinokoさん）
 
-### Android用
-* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) （@shin1201さん）
-* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  （ひさきさん @moyashimanjyu）  
-  本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
-* [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
+### FireFoxアドオン
+* [東京電力使用率メータ](https://addons.mozilla.org/ja/firefox/addon/tepcometer/) （@zaruさん）
+* [TepcoMeter for Firefox](http://lablog.lanche.jp/archives/309) （@edg_aimさん）
+
+### ウェブサイト
+* <http://www.youtaki.com/teiden/> （@ta1980ccさん）
+* [週刊計画停電](http://blackout.2px.jp/) （@watawataさん）
+* 携帯サイト [imile.jp](http://imile.jp/tepco) （イマイルさん @imilejp）
+* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)  （Iwasaki Teruyukiさん @twk）  
+  PHP言語から使用した例です。
 
 ### その他色々
-* AIRアプリ [停電リマインダー](http://z.twipple.jp/) （@jtc21さん）
+* UnityでJSONを扱う例 <http://d.hatena.ne.jp/shinobu_siv/20110325/1301057486> （@shinobu_shivaさん）
+* AIRアプリ [停電リマインダー](http://flash.jtc21.com/blackout_reminder/) （@jtc21さん）
 * ツイッタークライアント[ついっぷるのウィジェット](http://z.twipple.jp/) （@twipplesanさん）
 * mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307) （@mei_ichikuraさん）
 * Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856) （かずきさん @okazuki）
 * webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280) （@kazuki_waさん）
 * ブラビア用ウィジェット [節電メーター](http://d.hatena.ne.jp/kumapo/20110324) （@also_kumapoさん）
-* 携帯サイト [imile.jp](http://imile.jp/tepco) （イマイルさん @imilejp）
-* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)  （Iwasaki Teruyukiさん @twk）  
-  PHP言語から使用した例です。
 
 ## APIの例
 
