@@ -15,8 +15,8 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 
 import datetime
+import logging
 import re
-
 import markdown
 import tepco
 
@@ -152,7 +152,8 @@ def resultHandler(result, cachekey=None):
 
   if cachekey:
     data = memcache.get(cachekey)
-    if not data:
+    if not data or not isinstance(data, str):
+      logging.info('Cache miss, compute tye result.')
       data = result()
       if not data:
 	abort(404)
