@@ -1,3 +1,4 @@
+#vim:fileencoding=utf-8
 #
 # Retrieve the TEPCO power usage from the text and the image.
 #
@@ -8,39 +9,49 @@
 
 import urllib2
 import datetime
-import re
 
 import pygif
 
-PAGE_URL = 'http://www.tepco.co.jp/en/forecast/html/index-e.html'
 IMAGE_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.gif'
 CSV_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.csv'
-RE_CAPACITY = re.compile('Today\'s Maximum Capacity&nbsp;:&nbsp;([\d,]+)&nbsp;10&nbsp;thousand&nbsp;kW \(([a-zA-Z]{3} \d{1,2}. \d{1,2}:\d{2}) Update\)')
 
-COLOR_PINK = 106
-COLOR_BLUE = 6
-COLOR_WATER = 51
-COLOR_YELLOW = 125
-COLOR_BLACK = 1
-COLOR_ORANGE = 112
+COLOR_BLACK = (0, 0, 0)
+COLOR_ORANGE = (255, 153, 0)
 
 def from_web(oldlastmodstr=None):
   csv = urllib2.urlopen(CSV_URL)
   lastmodstr = csv.headers['last-modified']
   if lastmodstr == oldlastmodstr:
     return None
-  r = {
-    'usage-updated': datetime.datetime.strptime(lastmodstr, '%a, %d %b %Y %H:%M:%S %Z'),
-    'lastmodstr': lastmodstr,
-  }
+
+  r = {}
+  r['usage-updated'] = datetime.datetime.strptime(
+      lastmodstr, '%a, %d %b %Y %H:%M:%S %Z')
+  r['lastmodstr'] = lastmodstr
 
   #
   # Power usage
   #
   usage = {}
-  csv.readline()
-  csv.readline()
+  line = csv.readline()		# 2011/3/26 1:30 UPDATE
+  line = csv.readline()		# ピーク時供給力(万kW),時台,供給力情報更新日,供給力情報更新時刻
+  line = csv.readline()		# 3750,18:00,3/26,1:05
+  line = line.strip()
+  line = line.split(',')
+  r['capacity'] = int(line[0])
+  r['capacity-peak-period'] = int(line[1].split(':')[0])
+  t = datetime.datetime.strptime(
+    '2011 %s %s' % (line[2], line[3]), 
+    '%Y %m/%d %H:%M'
+  )
+  t -= datetime.timedelta(hours=9)
+  r['capacity-updated'] = t
+
+  line = csv.readline()		# empty line
+  line = csv.readline()		# DATE,TIME,当日実績(万kW),前日実績(万kW)
+
   for line in csv:
+    line = line.strip()
     line = line.split(',')
     power = int(line[2])
     if power == 0:
@@ -52,43 +63,32 @@ def from_web(oldlastmodstr=None):
   # Rolling blackout
   #
   try:
-    image = urllib2.urlopen(IMAGE_URL)
-    image = pygif.GifDecoder(image.read())
-    image = image.images[0]
-    def pixel(x, y):
-      return image.pixels[y * image.width + x]
-
-    comb = []
-    for x in range(53, 570):
-      if pixel(x, 284) == COLOR_BLACK:
-	comb.append(x + 1)
-
-    for h in usage.keys():
-      x = comb.pop(0)
-      usage[h] = (usage[h][0], (pixel(x, 285) == COLOR_ORANGE))
+    gif = urllib2.urlopen(IMAGE_URL)
   except:
     pass
+  else:
+    gif = pygif.GifDecoder(gif.read())
+    image = gif.images[0]
+
+    def is_pixel(x, y, col):
+      pix = image.pixels[y * image.width + x]
+      pix = gif.pallete[pix]
+      d = (
+	(pix[0] - col[0]) ** 2 +
+	(pix[1] - col[1]) ** 2 +
+	(pix[2] - col[2]) ** 2
+      )
+      return (d < 100)
+
+    def comb():
+      for x in range(50, 121):
+	if is_pixel(x, 387, COLOR_BLACK):
+	  yield x + 1
+
+    for h, x in zip(usage.iterkeys(), comb()):
+      usage[h] = (usage[h][0], is_pixel(x, 387, COLOR_ORANGE))
 
   r['usage'] = usage
-
-  #
-  # Capacity
-  #
-  page = urllib2.urlopen(PAGE_URL)
-  page = page.read()
-
-  m = RE_CAPACITY.search(page)
-  if not m:
-    raise RuntimeError
-  capacity = m.group(1)
-  capacity = int(capacity.replace(',', ''))
-  r['capacity'] = capacity
-
-  t = m.group(2)
-  t = datetime.datetime.strptime(t + ' 2011', '%b %d. %H:%M %Y')
-  t = t - datetime.timedelta(hours=9)
-  r['capacity-updated'] = t	# UTC
-
   return r
 
 def main():
