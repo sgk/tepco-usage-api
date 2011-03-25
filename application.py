@@ -33,6 +33,7 @@ class Usage(db.Model):
   usage_updated = db.DateTimeProperty(required=True)
   capacity = db.IntegerProperty(required=True)
   capacity_updated = db.DateTimeProperty(required=True)
+  capacity_peak_period = db.IntegerProperty()
 
 class Config(db.Model):
   # key_name
@@ -75,6 +76,7 @@ def update_from_tepco():
   usage_updated = data['usage-updated']
   capacity = data['capacity']
   capacity_updated = data['capacity-updated']
+  capacity_peak_period = data['capacity-peak-period']
 
   # the image is updated hourly just after the hour.
   jst = jst_from_utc(usage_updated) - datetime.timedelta(hours=1)
@@ -100,6 +102,7 @@ def update_from_tepco():
 	usage_updated=usage_updated,
 	capacity=capacity,
 	capacity_updated=capacity_updated,
+	capacity_peak_period=capacity_peak_period,
       )
     entry.put()
   memcache.delete('latest.json')
@@ -141,6 +144,7 @@ def dict_from_usage(usage):
     'usage_updated': str(usage.usage_updated),
     'capacity': usage.capacity,
     'capacity_updated': str(usage.capacity_updated),
+    'capacity_peak_period': usage.capacity_peak_period,
   }
 
 RE_CALLBACK = re.compile(r'^[a-zA-Z0-9_.]+$')
