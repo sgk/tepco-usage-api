@@ -11,7 +11,7 @@
     {% if usage %}
       <h2>最新状況</h2>
       <p>
-	時刻：{{ usage.year }}/{{ usage.month }}/{{ usage.day }} {{ usage.hour }}時台<br/>
+	時刻：{{ usage.year }}/{{ usage.month }}/{{ usage.day }} {{ usage.hour }}時台（{{ usage.hour }}時～{{ usage.hour + 1 }}時）<br/>
 	計画停電：{{ "実施中" if usage.saving else "実施無し" }}<br/>
 	使用率：{{ ratio }}%<br/>
 	消費電力：{{ usage.usage }}万kW<br/>
