@@ -12,7 +12,7 @@ APIなので、プログラマの方向けです。
 元のデータは、<http://www.tepco.co.jp/en/forecast/html/index-e.html>から得られる、CSVデータ、画像データです。
 東京電力のサイトに与える負荷は最低限となるように配慮しています。
 2011/3/23以降のデータをすべて保持する予定です。
-画像データ、文字データの解析は「仕様」が無い中で現物合わせでやっているわけで、急にうまくいかなくなる可能性があります。
+画像データの解析は「仕様」が無い中で現物合わせでやっているわけで、急にうまくいかなくなる可能性があります。
 データが更新されていない、値がおかしいという状況があったら、教えてください。
 ご連絡は、このページ最後に記したTwitterアカウントにお願いします。
 
@@ -23,23 +23,35 @@ APIなので、プログラマの方向けです。
 お知らせくださったのに掲載されていない場合は、ご指摘ください。
 
 ### Android用
-* [がんばれ！東京電力](https://market.android.com/details?id=com.creams.android.tepcopower) （@creamsさん）
-* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage) （@shin1201さん）
-* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)  （ひさきさん @moyashimanjyu）  
+* [東京節電](https://market.android.com/details?id=com.tonchidot.tokyosetsuden)（頓智ドットさん @nissa0916さん）
+* [がんばれ！東京電力](https://market.android.com/details?id=com.creams.android.tepcopower)（@creamsさん）
+* [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage)（@shin1201さん）
+* [メ・ガ・ネ！メガネケ・エ・ス！](https://market.android.com/details?id=jp.rsn.meganecase)（ひさきさん @moyashimanjyu）  
   本来はツイッタークライアントだそうですが、電力グラフが見られるそうです。
 * [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
 
 ### iPhone用
- * アプリが近日中にリリースされるようです。
- * iPhone用ウェブアプリ [Tepco Power](http://springreen.jp/LABO/tepco/) （@nakashimmerさん）
+* 「東京節電」まもなく公開。（頓智ドットさん @nissa0916さん）
+* iPhone用ウェブアプリ [Tepco Power](http://springreen.jp/LABO/tepco/)（@nakashimmerさん）
+
+### DoCoMo携帯用iアプリ
+* [供給電力チェッカー](http://bluesystem.jp/electro/)（@keidroidさん）
 
 ### ウィンドウズ用アプリ
-* [計画停電支援ソフト](http://esterserver.dip.jp/wordpress/2011/03/keikaku/) （@ester41さん）
+* [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
+* [計画停電支援ソフト](http://esterserver.dip.jp/wordpress/2011/03/keikaku/)（@ester41さん）
 
 ### Mac用アプリ
-* [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html) （サイフォン合同会社 @scivoneさん）
+* [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
+* [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html)（サイフォン合同会社 @scivoneさん）
+
+### Linux用アプリ
+* [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 
 ### Twitterボット
+* 電気情報ボット @denki2bot（@twittbotinfoさん）
+* 東北関東大震災を忘れないbot @never4get_jp
+* 電力の使用状況BOT @denryoku_（@dekosukeさん）
 * 【東電】みんなの節電bot @setuden_tokyo（tsuyoshi kanekoさん @tsuyoshi_osiire）
 * 東京電力 使用状況 @touden_now（@yusuketsuikiさん）
 * 東電使用状況なう @tepcousagebot（@zenjiroさん）
@@ -47,34 +59,40 @@ APIなので、プログラマの方向けです。
 * 東電の使用状況 @denden_bot
 
 ### Chrome拡張
-* [TEPCO - Power Usage Checker](https://chrome.google.com/webstore/detail/gjlmabfkhojibpdhdcdkagiplbmkcgfd) （大石哲生さん @_tetsuwo）
-* [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng) （やまりょーさん）
-* [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn) （@yoshikinokoさん）
+* [TEPCO - Power Usage Checker](https://chrome.google.com/webstore/detail/gjlmabfkhojibpdhdcdkagiplbmkcgfd)（大石哲生さん @_tetsuwo）
+* [でんきしようりょう](https://chrome.google.com/extensions/detail/lfmonelbfopoomjhfdkgncjgdaacakng)（やまりょーさん）
+* [東京電力の電力使用状況](https://chrome.google.com/webstore/detail/gnocfjmldbnlkjkolgdbogpobnmdhpjn)（@yoshikinokoさん）
 
 ### FireFoxアドオン
-* [東京電力使用率メータ](https://addons.mozilla.org/ja/firefox/addon/tepcometer/) （@zaruさん）
-* [TepcoMeter for Firefox](http://lablog.lanche.jp/archives/309) （@edg_aimさん）
+* [東京電力使用率メータ](https://addons.mozilla.org/ja/firefox/addon/tepcometer/)（@zaruさん）
+* [TepcoMeter for Firefox](http://lablog.lanche.jp/archives/309)（@edg_aimさん）
 
 ### ブログパーツ
-* [みんなで節電 消費電力ブログパーツ](http://www.at-r.net/setsuden/) （@atraitaさん）
-* [東京電力電力供給情報](http://tepco-supply.info/) （@oppo240さん）
+* [みんなで節電 消費電力ブログパーツ](http://www.at-r.net/setsuden/)（@atraitaさん）
+* [東京電力電力供給情報](http://tepco-supply.info/)（@oppo240さん）
 
 ### ウェブサイト
-* [ついっぷるのウィジェット](http://z.twipple.jp/) （@twipplesanさん）
-* mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307) （@mei_ichikuraさん）
-* [計画停電情報 共有サービス](http://www.youtaki.com/teiden/) （@ta1980ccさん）
-* [週刊計画停電](http://blackout.2px.jp/) （@watawataさん）
-* 携帯サイト [imile.jp](http://imile.jp/tepco) （イマイルさん @imilejp）
-* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)  （Iwasaki Teruyukiさん @twk）  
+* [とうきょうでんりょくめーたー](http://tepco-to-dome.heroku.com/)（@902さん）
+* [ついっぷるのウィジェット](http://z.twipple.jp/)（@twipplesanさん）
+* mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307)（@mei_ichikuraさん）
+* [計画停電情報 共有サービス](http://www.youtaki.com/teiden/)（@ta1980ccさん）
+* [週刊計画停電](http://blackout.2px.jp/)（@watawataさん）
+* 携帯サイト [imile.jp](http://imile.jp/tepco)（イマイルさん @imilejp）
+* ブログ応用例 [東京電力電力供給状況APIを使ってみました](http://nonn-et-twk.net/twk/node/357)（Iwasaki Teruyukiさん @twk）  
   PHP言語から使用した例です。
 
+### ブラビア用アプリ（アプリキャスト）
+* [電力チェッカー](http://d.hatena.ne.jp/ocean0602/20110325/1301024884)（@ocean0602さん）
+* [節電メーター](http://d.hatena.ne.jp/kumapo/20110324)（@also_kumapoさん）
+
 ### その他色々
-* Limechat用スクリプト (Tepco.js)[http://d.hatena.ne.jp/whiteleaf/20110326] （@sasalove7さん）
-* UnityでJSONを扱う例 <http://d.hatena.ne.jp/shinobu_siv/20110325/1301057486> （@shinobu_shivaさん）
-* AIRアプリ [停電リマインダー](http://flash.jtc21.com/blackout_reminder/) （@jtc21さん）
-* Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856) （かずきさん @okazuki）
-* webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280) （@kazuki_waさん）
-* ブラビア用ウィジェット [節電メーター](http://d.hatena.ne.jp/kumapo/20110324) （@also_kumapoさん）
+* Googleデスクトップ用 (東電電力使用状況モニタガジェット)[http://tsukigasa.amearare.com/)（@yoma_treeさん）
+* Emacs用 (yasima.el)[https://github.com/dagezi/yasima.el]（@dageziさん）
+* Limechat用スクリプト (Tepco.js)[http://d.hatena.ne.jp/whiteleaf/20110326]（@sasalove7さん）
+* UnityでJSONを扱う例 <http://d.hatena.ne.jp/shinobu_siv/20110325/1301057486>（@shinobu_shivaさん）
+* AIRアプリ [停電リマインダー](http://flash.jtc21.com/blackout_reminder/)（@jtc21さん）
+* Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856)（かずきさん @okazuki）
+* webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280)（@kazuki_waさん）
 
 ## APIの例
 
@@ -150,7 +168,9 @@ saving
 ## メモ
 
 * Google App Engine上で動作させています。 ある程度の負荷には耐えるはずです。
+* たまーに、1秒1回以下の頻度でアクセスしてくる方がいらっしゃいます…。
 * UTCにするべきじゃなかったかも…
+* 東電さん、Librahackな話は勘弁してください。
 
 ## 履歴 
 
@@ -184,6 +204,6 @@ saving
 : 公開
 
 ----
-更新日：2011-3-26  
+更新日：2011-3-27  
 連絡先：@ssci  
 ソース：<https://github.com/sgk/tepco-usage-api>
