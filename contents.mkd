@@ -72,6 +72,8 @@ APIなので、プログラマの方向けです。
 * [東京電力電力供給情報](http://tepco-supply.info/)（@oppo240さん）
 
 ### ウェブサイト
+* [東京電力消費電力量グラフ](http://rss.rdy.jp/tepco/)（@iRSSさん）  
+    Google Visualization APIを使ってグラフ化。
 * [とうきょうでんりょくめーたー](http://tepco-to-dome.heroku.com/)（@902さん）
 * [ついっぷるのウィジェット](http://z.twipple.jp/)（@twipplesanさん）
 * mixiアプリ [東京電力電力供給状況チェッカー](http://mixi.jp/view_appli.pl?id=30307)（@mei_ichikuraさん）
@@ -86,9 +88,9 @@ APIなので、プログラマの方向けです。
 * [節電メーター](http://d.hatena.ne.jp/kumapo/20110324)（@also_kumapoさん）
 
 ### その他色々
-* Googleデスクトップ用 (東電電力使用状況モニタガジェット)[http://tsukigasa.amearare.com/)（@yoma_treeさん）
-* Emacs用 (yasima.el)[https://github.com/dagezi/yasima.el]（@dageziさん）
-* Limechat用スクリプト (Tepco.js)[http://d.hatena.ne.jp/whiteleaf/20110326]（@sasalove7さん）
+* Googleデスクトップ用 [東電電力使用状況モニタガジェット](http://tsukigasa.amearare.com/)（@yoma_treeさん）
+* Emacs用 [yasima.el](https://github.com/dagezi/yasima.el)（@dageziさん）
+* Limechat用スクリプト [Tepco.js](http://d.hatena.ne.jp/whiteleaf/20110326)（@sasalove7さん）
 * UnityでJSONを扱う例 <http://d.hatena.ne.jp/shinobu_siv/20110325/1301057486>（@shinobu_shivaさん）
 * AIRアプリ [停電リマインダー](http://flash.jtc21.com/blackout_reminder/)（@jtc21さん）
 * Silverlight用ライブラリ [東京電力電力供給状況API Silverlight用APIラッパー](http://d.hatena.ne.jp/okazuki/20110324/1300972856)（かずきさん @okazuki）
