@@ -115,7 +115,7 @@ def top():
   usage = Usage.all().order('-entryfor').get()
   if usage:
     today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
-    ratio = round(usage.usage * 100.0 / usage.capacity)
+    ratio = round(usage.usage * 100.0 / usage.capacity, 1)
   else:
     today = datetime.datetime.now()
     ratio = 0
