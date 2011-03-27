@@ -105,7 +105,7 @@ def update_from_tepco():
 	capacity_peak_period=capacity_peak_period,
       )
     entry.put()
-  memcache.delete('latest.json')
+  memcache.flush_all()
   return ''
 
 RE_TWITTER_ID = re.compile(r'@([a-zA-Z0-9_]+)')
@@ -124,7 +124,10 @@ def top():
   contents = contents.decode('utf-8')
   contents = markdown.markdown(contents, ['def_list'])
   contents = render_template_string(contents, today=today)
-  contents = RE_TWITTER_ID.sub(r'<a href="http://twitter.com/\1">@\1</a>', contents)
+  contents = RE_TWITTER_ID.sub(
+    r'<a href="http://twitter.com/\1">@\1</a>',
+    contents
+  )
   contents = Markup(contents)
 
   return render_template(
@@ -149,36 +152,37 @@ def dict_from_usage(usage):
 
 RE_CALLBACK = re.compile(r'^[a-zA-Z0-9_.]+$')
 
-def resultHandler(result, cachekey=None):
-  callback = request.form.get('callback') or request.args.get('callback')
-  if callback and not RE_CALLBACK.search(callback):
-    abort(404)
-
-  if cachekey:
-    data = memcache.get(cachekey)
-    if not data or not isinstance(data, str):
-      logging.info('Cache miss, compute tye result.')
-      data = result()
-      if not data:
+def route_json(rule, **options):
+  def decorator(func):
+    def decorated(*args, **kw):
+      callback = request.form.get('callback') or request.args.get('callback')
+      if callback and not RE_CALLBACK.search(callback):
 	abort(404)
-      data = json.dumps(data, indent=2)
-      memcache.set(cachekey, data)
-  else:
-    data = json.dumps(result, indent=2)
 
-  if callback:
-    return Response('%s(%s);' % (callback, data), mimetype='text/javascript')
-  else:
-    return Response(data, mimetype='application/json')
+      data = memcache.get(request.path)
+      if not data or not isinstance(data, str):
+	logging.info('Cache miss for %s' % request.path)
+	data = func(*args, **kw)
+	if not data:
+	  abort(404)
+	data = json.dumps(data, indent=2)
+	memcache.set(request.path, data)
 
-@app.route('/latest.json')
+      if callback:
+	return Response(
+	    '%s(%s);' % (callback, data), mimetype='text/javascript')
+      else:
+	return Response(data, mimetype='application/json')
+    app.add_url_rule(rule, func.__name__, decorated, **options)
+    return decorated
+  return decorator
+
+@route_json('/latest.json')
 def latest():
-  def compute():
-    usage = Usage.all().order('-entryfor').get()
-    return dict_from_usage(usage)
-  return resultHandler(compute, 'latest.json')
+  usage = Usage.all().order('-entryfor').get()
+  return dict_from_usage(usage)
 
-@app.route('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
+@route_json('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
 def hour(year, month, day, hour):
   usage = Usage.all()
   usage = usage.filter('year =', year)
@@ -186,24 +190,21 @@ def hour(year, month, day, hour):
   usage = usage.filter('day =', day)
   usage = usage.filter('hour =', hour)
   usage = usage.get()
-  usage = dict_from_usage(usage)
-  return resultHandler(usage)
+  return dict_from_usage(usage)
 
-@app.route('/<int:year>/<int:month>/<int:day>.json')
+@route_json('/<int:year>/<int:month>/<int:day>.json')
 def day(year, month, day):
   usage = Usage.all()
   usage = usage.filter('year =', year)
   usage = usage.filter('month =', month)
   usage = usage.filter('day =', day)
   usage = usage.order('entryfor')
-  usage = [dict_from_usage(u) for u in usage]
-  return resultHandler(usage)
+  return [dict_from_usage(u) for u in usage]
 
-@app.route('/<int:year>/<int:month>.json')
+@route_json('/<int:year>/<int:month>.json')
 def month(year, month):
   usage = Usage.all()
   usage = usage.filter('year =', year)
   usage = usage.filter('month =', month)
   usage = usage.order('entryfor')
-  usage = [dict_from_usage(u) for u in usage]
-  return resultHandler(usage)
+  return [dict_from_usage(u) for u in usage]
