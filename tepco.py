@@ -16,7 +16,7 @@ IMAGE_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.gif'
 CSV_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.csv'
 
 COLOR_BLACK = (0, 0, 0)
-COLOR_ORANGE = (255, 153, 0)
+COLOR_ORANGE = (255, 128, 0)
 
 def from_web(oldlastmodstr=None):
   csv = urllib2.urlopen(CSV_URL)
@@ -81,7 +81,7 @@ def from_web(oldlastmodstr=None):
       return (d < 100)
 
     def comb():
-      for x in range(50, 121):
+      for x in range(50, 670):
 	if is_pixel(x, 387, COLOR_BLACK):
 	  yield x + 1
 
