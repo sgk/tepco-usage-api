@@ -38,6 +38,7 @@ APIなので、プログラマの方向けです。
 * [供給電力チェッカー](http://bluesystem.jp/electro/)（@keidroidさん）
 
 ### ウィンドウズ用アプリ
+* [計画停電.NET](http://winpower.blog4.fc2.com/blog-entry-487.html)（@gatekeeper_infoさん）
 * [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 * [計画停電支援ソフト](http://esterserver.dip.jp/wordpress/2011/03/keikaku/)（@ester41さん）
 
@@ -88,6 +89,8 @@ APIなので、プログラマの方向けです。
 * [節電メーター](http://d.hatena.ne.jp/kumapo/20110324)（@also_kumapoさん）
 
 ### その他色々
+* Ruby用ライブラリ [tepco_usage_api.rb](https://github.com/satoryu/tepco_usage_api/)（@sato_ryuさん）
+* OpenSocialガジェット [tepco-usageview](https://gist.github.com/890677)（@kim_upsilonさん）
 * Googleデスクトップ用 [東電電力使用状況モニタガジェット](http://tsukigasa.amearare.com/)（@yoma_treeさん）
 * Emacs用 [yasima.el](https://github.com/dagezi/yasima.el)（@dageziさん）
 * Limechat用スクリプト [Tepco.js](http://d.hatena.ne.jp/whiteleaf/20110326)（@sasalove7さん）
