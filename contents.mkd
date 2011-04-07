@@ -23,6 +23,8 @@ APIなので、プログラマの方向けです。
 お知らせくださったのに掲載されていない場合は、ご指摘ください。
 
 ### Android用
+* [東電限界能力](https://market.android.com/details?id=org.cryp.TodenMeter) （@soheiさん）
+* [みんなで節電（関東版）](http://appliko.jp/30231) （@applikojpさん）
 * [東京節電](https://market.android.com/details?id=com.tonchidot.tokyosetsuden)（頓智ドットさん @nissa0916さん）
 * [がんばれ！東京電力](https://market.android.com/details?id=com.creams.android.tepcopower)（@creamsさん）
 * [東京電力供給情報ウィジェット](https://market.android.com/details?id=org.ydeb.android.tepcousage)（@shin1201さん）
@@ -34,15 +36,22 @@ APIなので、プログラマの方向けです。
 * 「東京節電」まもなく公開。（頓智ドットさん @nissa0916さん）
 * iPhone用ウェブアプリ [Tepco Power](http://springreen.jp/LABO/tepco/)（@nakashimmerさん）
 
-### DoCoMo携帯用iアプリ
+### DoCoMo携帯用
 * [供給電力チェッカー](http://bluesystem.jp/electro/)（@keidroidさん）
 
+### SoftBank携帯用
+* [SoftBankアプリ版供給電力チェッカー](http://creator.appget.com/catalog/show/58050) （@keidroidさん）
+
 ### ウィンドウズ用アプリ
+* [電力使用状況ガジェット](http://punio.seesaa.net/article/194314906.html) （@vl_o_lvさん）
+* [電力使用率ガジェット](http://www.meeks.jp/archives/238) （@Meeks_Incさん）
 * [計画停電.NET](http://winpower.blog4.fc2.com/blog-entry-487.html)（@gatekeeper_infoさん）
 * [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 * [計画停電支援ソフト](http://esterserver.dip.jp/wordpress/2011/03/keikaku/)（@ester41さん）
 
 ### Mac用アプリ
+* [東京電力需給状況 Dashboard Widget](http://blue-brewery.net/archive/20110403_200500_tepco_power_supply.html) （@kuroxplumさん）
+* [東京電力の電力使用状況表示ツール](http://www.desirery.com/blog/web/737/) （@Toyotterさん）
 * [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 * [東京電力電力供給状況モニターアプリ TepcoMeter for Mac](http://scivone.com/info/2011/201103004.html)（サイフォン合同会社 @scivoneさん）
 
@@ -50,6 +59,7 @@ APIなので、プログラマの方向けです。
 * [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 
 ### Twitterボット
+* @bokura
 * 電気情報ボット @denki2bot（@twittbotinfoさん）
 * 東北関東大震災を忘れないbot @never4get_jp
 * 電力の使用状況BOT @denryoku_（@dekosukeさん）
@@ -73,6 +83,9 @@ APIなので、プログラマの方向けです。
 * [東京電力電力供給情報](http://tepco-supply.info/)（@oppo240さん）
 
 ### ウェブサイト
+* [計画停電マップ](http://t.yuto.jp/) （@y_hirasawaさん）
+* 携帯サイト [keikaku-teiden.net](http://keikaku-teiden.net/) （@tkawamuraさん）
+* [停電カレンダー](http://www5.pf-x.net/~funnypainter/guide/teiden.html) （@funnypainterさん）
 * [東京電力消費電力量グラフ](http://rss.rdy.jp/tepco/)（@iRSSさん）  
     Google Visualization APIを使ってグラフ化。
 * [とうきょうでんりょくめーたー](http://tepco-to-dome.heroku.com/)（@902さん）
@@ -89,6 +102,12 @@ APIなので、プログラマの方向けです。
 * [節電メーター](http://d.hatena.ne.jp/kumapo/20110324)（@also_kumapoさん）
 
 ### その他色々
+* [東京電力電力供給状況確認ブックマークレット](http://dl.dropbox.com/u/516842/tpb.html) （@yitoさん）
+* [Becky!プラグイン](http://www.vector.co.jp/vpack/browse/person/an049730.html) （@vinrieslingさん）
+* [Emacsのモードラインに表示する](https://github.com/kanameg/display-tepco) （@kanamegさん）
+* [東京電力電力供給状況グラフAPI](http://www.youtaki.com/tepco_rrd_api.html) （@ta1980ccさん）
+* Arduinoとイーサネットシールドを使った例 （@mitsumame_oasisさん）
+* [xyzzy のモードラインに電力の消費状況を表示する](http://miyamuko.s56.xrea.com/xyzzy/power-usage/intro.htm) （@miyamukoさん）
 * Ruby用ライブラリ [tepco_usage_api.rb](https://github.com/satoryu/tepco_usage_api/)（@sato_ryuさん）
 * OpenSocialガジェット [tepco-usageview](https://gist.github.com/890677)（@kim_upsilonさん）
 * Googleデスクトップ用 [東電電力使用状況モニタガジェット](http://tsukigasa.amearare.com/)（@yoma_treeさん）
