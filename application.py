@@ -34,6 +34,9 @@ class Usage(db.Model):
   capacity = db.IntegerProperty(required=True)
   capacity_updated = db.DateTimeProperty(required=True)
   capacity_peak_period = db.IntegerProperty()
+  forecast_peak_usage = db.IntegerProperty()
+  forecast_peak_period = db.IntegerProperty()
+  forecast_peak_updated = db.DateTimeProperty()
 
 class Config(db.Model):
   # key_name
@@ -73,13 +76,8 @@ def update_from_tepco():
     value=data['lastmodstr']
   ).put()
 
-  usage_updated = data['usage-updated']
-  capacity = data['capacity']
-  capacity_updated = data['capacity-updated']
-  capacity_peak_period = data['capacity-peak-period']
-
   # the image is updated hourly just after the hour.
-  jst = jst_from_utc(usage_updated) - datetime.timedelta(hours=1)
+  jst = jst_from_utc(data['usage-updated']) - datetime.timedelta(hours=1)
   jst = jst.replace(minute=0, second=0, microsecond=0)
 
   for hour, (usage, saving) in data['usage'].iteritems():
@@ -88,7 +86,7 @@ def update_from_tepco():
     if entry:
       if entry.usage != usage:
 	entry.usage = usage
-	entry.usage_updated = usage_updated
+	entry.usage_updated = data['usage-updated']
       entry.saving = saving
     else:
       entry = Usage(
@@ -99,10 +97,13 @@ def update_from_tepco():
 	hour=hour,
 	usage=usage,
 	saving=saving,
-	usage_updated=usage_updated,
-	capacity=capacity,
-	capacity_updated=capacity_updated,
-	capacity_peak_period=capacity_peak_period,
+	usage_updated=data['usage-updated'],
+	capacity=data['capacity'],
+	capacity_updated=data['capacity-updated'],
+	capacity_peak_period=data['capacity-peak-period'],
+	forecast_peak_usage=data['forecast-peak-usage'],
+	forecast_peak_period=data['forecast-peak-period'],
+	forecast_peak_updated=data['forecast-peak-updated'],
       )
     entry.put()
   memcache.flush_all()
@@ -148,6 +149,9 @@ def dict_from_usage(usage):
     'capacity': usage.capacity,
     'capacity_updated': str(usage.capacity_updated),
     'capacity_peak_period': usage.capacity_peak_period,
+    'forecast_peak_usage': usage.forecast_peak_usage,
+    'forecast_peak_period': usage.forecast_peak_period,
+    'forecast_peak_updated': usage.forecast_peak_updated and str(usage.forecast_peak_updated),
   }
 
 RE_CALLBACK = re.compile(r'^[a-zA-Z0-9_.]+$')

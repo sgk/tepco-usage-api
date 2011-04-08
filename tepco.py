@@ -34,6 +34,7 @@ def from_web(oldlastmodstr=None):
   #
   usage = {}
   line = csv.readline()		# 2011/3/26 1:30 UPDATE
+
   line = csv.readline()		# ピーク時供給力(万kW),時台,供給力情報更新日,供給力情報更新時刻
   line = csv.readline()		# 3750,18:00,3/26,1:05
   line = line.strip()
@@ -46,8 +47,23 @@ def from_web(oldlastmodstr=None):
   )
   t -= datetime.timedelta(hours=9)
   r['capacity-updated'] = t
-
   line = csv.readline()		# empty line
+
+  line = csv.readline()		# 予想最大電力(万kW),時間帯,予想最大電力情報更新日,予想最大電力情報更新時刻
+
+  line = csv.readline()		# 3350,18:00～19:00,4/8,1:05
+  line = line.strip()
+  line = line.split(',')
+  r['forecast-peak-usage'] = int(line[0])
+  r['forecast-peak-period'] = int(line[1].split(':')[0])
+  t = datetime.datetime.strptime(
+    '2011 %s %s' % (line[2], line[3]), 
+    '%Y %m/%d %H:%M'
+  )
+  t -= datetime.timedelta(hours=9)
+  r['forecast-peak-updated'] = t
+  line = csv.readline()		# empty line
+
   line = csv.readline()		# DATE,TIME,当日実績(万kW),前日実績(万kW)
 
   for line in csv:
