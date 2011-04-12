@@ -43,6 +43,7 @@ APIなので、プログラマの方向けです。
 * [SoftBankアプリ版供給電力チェッカー](http://creator.appget.com/catalog/show/58050) （@keidroidさん）
 
 ### ウィンドウズ用アプリ
+* [TokyoPowerHeart](https://sites.google.com/site/tokyopowerheart/) （@quriharaさん）
 * [電力使用状況ガジェット](http://punio.seesaa.net/article/194314906.html) （@vl_o_lvさん）
 * [電力使用率ガジェット](http://www.meeks.jp/archives/238) （@Meeks_Incさん）
 * [計画停電.NET](http://winpower.blog4.fc2.com/blog-entry-487.html)（@gatekeeper_infoさん）
@@ -102,6 +103,7 @@ APIなので、プログラマの方向けです。
 * [節電メーター](http://d.hatena.ne.jp/kumapo/20110324)（@also_kumapoさん）
 
 ### その他色々
+* [メール警告スクリプト](http://bit.ly/ijwULV) （@TKazawaさん）
 * [東京電力電力供給状況確認ブックマークレット](http://dl.dropbox.com/u/516842/tpb.html) （@yitoさん）
 * [Becky!プラグイン](http://www.vector.co.jp/vpack/browse/person/an049730.html) （@vinrieslingさん）
 * [Emacsのモードラインに表示する](https://github.com/kanameg/display-tepco) （@kanamegさん）
@@ -198,6 +200,8 @@ saving
 
 ## 履歴 
 
+2011-4-12
+:   4月9日午前0時のデータが異常な値でしたので、手で変更しました。旧：4219→新：2597 午前1時の値と同じにしました。お知らせくださった、@emomon8さん、ありがとうございます。
 2011-4-8
 :   東京電力がCSVファイルの内容を変更したので、これに追従しました。
 2011-3-26
