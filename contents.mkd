@@ -23,6 +23,9 @@ APIなので、プログラマの方向けです。
 お知らせくださったのに掲載されていない場合は、ご指摘ください。
 
 ### Android用
+* [denki TOKYO](https://market.android.com/details?id=com.nanaobros.denkitokyo) （@denkitokyoさん）
+* [関東圏消費電力ウィジェット](https://market.android.com/details?id=info.moccos.android.TokyoEp) （@moccosさん）
+* [節電モニター for Android](http://setsuden.iridge.jp/) （@twiconcierさん）
 * [東電限界能力](https://market.android.com/details?id=org.cryp.TodenMeter) （@soheiさん）
 * [みんなで節電（関東版）](http://appliko.jp/30231) （@applikojpさん）
 * [東京節電](https://market.android.com/details?id=com.tonchidot.tokyosetsuden)（頓智ドットさん @nissa0916さん）
@@ -33,10 +36,12 @@ APIなので、プログラマの方向けです。
 * [(非公式)東京電力電力需給チェッカー](https://market.android.com/details?id=me.nakaya.dev.tepcooalert)
 
 ### iPhone用
-* 「東京節電」まもなく公開。（頓智ドットさん @nissa0916さん）
-* iPhone用ウェブアプリ [Tepco Power](http://springreen.jp/LABO/tepco/)（@nakashimmerさん）
+* iPhoneアプリ「東京節電」まもなく公開。（頓智ドットさん @nissa0916さん）
+* [iPhoneアプリ「電力使用状況（東電エリア）」](http://itunes.apple.com/jp/app/id428014042?mt=8) （@Hiroki_Matsuseさん）
+* ウェブアプリ [Tepco Power](http://springreen.jp/LABO/tepco/)（@nakashimmerさん）
 
 ### DoCoMo携帯用
+* [節電モニター for iコンシェル](http://setsuden.iridge.jp/) （@twiconcierさん）
 * [供給電力チェッカー](http://bluesystem.jp/electro/)（@keidroidさん）
 
 ### SoftBank携帯用
@@ -60,6 +65,7 @@ APIなので、プログラマの方向けです。
 * [東京電力の消費電力情報表示ツール](http://usamimi.info/~guiprog/toden/)（@nishio_densさん）
 
 ### Twitterボット
+* @nokoriha
 * @bokura
 * 電気情報ボット @denki2bot（@twittbotinfoさん）
 * 東北関東大震災を忘れないbot @never4get_jp
@@ -234,6 +240,6 @@ saving
 : 公開
 
 ----
-更新日：2011-4-8  
+更新日：2011-4-14  
 連絡先：@ssci  
 ソース：<https://github.com/sgk/tepco-usage-api>
