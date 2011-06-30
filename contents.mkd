@@ -1,8 +1,9 @@
 ## ニュース
 
-7月1日、東京電力が提供するCSVのデータ形式が変更されたため、追従する作業を行っています。
-5分ごとの速報データも提供する予定です。
-7月1日中の提供開始が目標です。
+7月1日、東京電力が提供するCSVのデータ形式が変更されたため、追従する作業を行っています。以下の新しいAPIを追加しました。速報値を蓄積して提供する事については、検討中です。
+
+[http://tepco-usage-api.appspot.com/quick.txt](quick.txt)
+: 5分ごとに更新される速報データのうち、最も新しいデータを返します。データの形式は、「HH:MM,XXXX,YYYY」です。HH:MMは時刻（24時間制）、XXXXは電力消費量（万kW）、YYYYは供給可能電力（万kW）です。
 
 ## 概要
 
@@ -130,6 +131,9 @@ APIなので、プログラマの方向けです。
 * webOS用アプリ [ぷれ電気](http://d.hatena.ne.jp/LOT/20110324/1300937280)（@kazuki_waさん）
 
 ## APIの例
+
+[http://tepco-usage-api.appspot.com/quick.txt](quick.txt)
+: 5分ごとに更新される速報データのうち、最も新しいデータを返します。データの形式は、「HH:MM,XXXX,YYYY」です。HH:MMは時刻（24時間制）、XXXXは電力消費量（万kW）、YYYYは供給可能電力（万kW）です。
 
 [http://tepco-usage-api.appspot.com/latest.json](latest.json)
 : 最新の電力使用状況を返します。

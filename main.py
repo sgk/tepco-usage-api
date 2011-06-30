@@ -77,6 +77,12 @@ def update_from_tepco():
     value=data['lastmodstr']
   ).put()
 
+  if data.has_key('quick'):
+    Config(
+      key_name='quick.txt',
+      value=data['quick']
+    ).put()
+
   # the image is updated hourly just after the hour.
   jst = jst_from_utc(data['usage-updated']) - datetime.timedelta(hours=1)
   jst = jst.replace(minute=0, second=0, microsecond=0)
@@ -221,3 +227,14 @@ def month(year, month):
   usage = usage.filter('month =', month)
   usage = usage.order('entryfor')
   return [dict_from_usage(u) for u in usage]
+
+@app.route('/quick.txt')
+def quick():
+  data = memcache.get(request.path)
+  if not data:
+    data = Config.get_by_key_name('quick.txt')
+    if not data:
+      abort(404)
+    data = data.value
+    memcache.set(request.path, data)
+  return data
