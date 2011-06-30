@@ -30,6 +30,7 @@ class Usage(db.Model):
   hour = db.IntegerProperty(required=True)
   usage = db.IntegerProperty(required=True)
   saving = db.BooleanProperty(required=True)
+  forecast = db.IntegerProperty()
   usage_updated = db.DateTimeProperty(required=True)
   capacity = db.IntegerProperty(required=True)
   capacity_updated = db.DateTimeProperty(required=True)
@@ -80,7 +81,7 @@ def update_from_tepco():
   jst = jst_from_utc(data['usage-updated']) - datetime.timedelta(hours=1)
   jst = jst.replace(minute=0, second=0, microsecond=0)
 
-  for hour, (usage, saving) in data['usage'].iteritems():
+  for hour, (usage, saving, forecast) in data['usage'].iteritems():
     entryfor = utc_from_jst(jst.replace(hour=hour))
     entry = Usage.all().filter('entryfor =', entryfor).get()
     if entry:
@@ -88,6 +89,7 @@ def update_from_tepco():
 	entry.usage = usage
 	entry.usage_updated = data['usage-updated']
       entry.saving = saving
+      entry.forecast = forecast
     else:
       entry = Usage(
 	entryfor=entryfor,
@@ -97,6 +99,7 @@ def update_from_tepco():
 	hour=hour,
 	usage=usage,
 	saving=saving,
+	forecast=forecast,
 	usage_updated=data['usage-updated'],
 	capacity=data['capacity'],
 	capacity_updated=data['capacity-updated'],
@@ -145,6 +148,7 @@ def dict_from_usage(usage):
     'hour': usage.hour,
     'usage': usage.usage,
     'saving': usage.saving,
+    'forecast': usage.forecast,
     'usage_updated': str(usage.usage_updated),
     'capacity': usage.capacity,
     'capacity_updated': str(usage.capacity_updated),

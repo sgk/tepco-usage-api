@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #vim:fileencoding=utf-8
 #
 # Retrieve the TEPCO power usage from the text and the image.
@@ -18,7 +19,7 @@ CSV_URL = 'http://www.tepco.co.jp/forecast/html/images/juyo-j.csv'
 COLOR_BLACK = (0, 0, 0)
 COLOR_ORANGE = (255, 128, 0)
 
-def from_web(url, oldlastmodstr=None):
+def from_web(oldlastmodstr=None, url=None):
   csv = urllib2.urlopen(url or CSV_URL)
   lastmodstr = csv.headers['last-modified']
   if lastmodstr == oldlastmodstr:
@@ -49,8 +50,10 @@ def from_web(url, oldlastmodstr=None):
   r['capacity-updated'] = t
   line = csv.readline()		# empty line
 
+  #
+  # Forecast
+  #
   line = csv.readline()		# 予想最大電力(万kW),時間帯,予想最大電力情報更新日,予想最大電力情報更新時刻
-
   line = csv.readline()		# 3640,14:00～15:00,6/26,17:30
   line = line.strip()
   line = line.split(',')
@@ -64,8 +67,10 @@ def from_web(url, oldlastmodstr=None):
   r['forecast-peak-updated'] = t
   line = csv.readline()		# empty line
 
+  #
+  # Hourly history
+  #
   line = csv.readline()		# DATE,TIME,当日実績(万kW),予測値(万kW)
-
   for x in range(24):
     line = csv.readline()
     line = line.strip()
@@ -75,10 +80,10 @@ def from_web(url, oldlastmodstr=None):
     forecast = int(line[3])
     usage[hour] = (power, False, forecast)
 
+  #
+  # Rolling blackout
+  #
   if False:
-    #
-    # Rolling blackout
-    #
     try:
       gif = urllib2.urlopen(IMAGE_URL)
     except:
@@ -104,8 +109,11 @@ def from_web(url, oldlastmodstr=None):
 
       for h, x in zip(usage.iterkeys(), comb()):
 	usage[h] = (usage[h][0], is_pixel(x, 387, COLOR_ORANGE))
-
   r['usage'] = usage
+
+  #
+  #
+  #
   return r
 
 def main():
@@ -114,7 +122,7 @@ def main():
   import sys
   locale.setlocale(locale.LC_ALL, 'C')
   url = sys.argv[1] if len(sys.argv) > 1 else None
-  pprint.pprint(from_web(url))
+  pprint.pprint(from_web(url=url))
 
 if __name__ == '__main__':
   main()
