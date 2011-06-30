@@ -148,7 +148,7 @@ def dict_from_usage(usage):
     'hour': usage.hour,
     'usage': usage.usage,
     'saving': usage.saving,
-    'forecast': usage.forecast or 0,
+    'forecast': usage.forecast,
     'usage_updated': str(usage.usage_updated),
     'capacity': usage.capacity,
     'capacity_updated': str(usage.capacity_updated),
