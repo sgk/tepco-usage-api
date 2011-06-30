@@ -1,5 +1,5 @@
 #!/usr/bin/python
 from wsgiref.handlers import CGIHandler
-from application import app
+from main import app
 
 CGIHandler().run(app)
