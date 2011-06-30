@@ -116,7 +116,10 @@ RE_TWITTER_ID = re.compile(r'@([a-zA-Z0-9_]+)')
 
 @app.route('/')
 def top():
-  usage = Usage.all().order('-entryfor').get()
+  usage = None
+  for usage in Usage.all().order('-entryfor').fetch(24):
+    if usage.usage != 0:
+      break
   if usage:
     today = jst_from_utc(usage.usage_updated - datetime.timedelta(hours=1))
     ratio = round(usage.usage * 100.0 / usage.capacity, 1)
@@ -187,7 +190,9 @@ def route_json(rule, **options):
 
 @route_json('/latest.json')
 def latest():
-  usage = Usage.all().order('-entryfor').get()
+  for usage in Usage.all().order('-entryfor').fetch(24):
+    if usage.usage != 0:
+      break
   return dict_from_usage(usage)
 
 @route_json('/<int:year>/<int:month>/<int:day>/<int:hour>.json')
