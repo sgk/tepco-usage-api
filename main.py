@@ -7,6 +7,7 @@
 from flask import (
   Flask, request, Response, abort, json,
   render_template, render_template_string, Markup,
+  make_response,
 )
 app = Flask(__name__)
 app.debug = True
@@ -95,7 +96,8 @@ def update_from_tepco():
 	entry.usage = usage
 	entry.usage_updated = data['usage-updated']
       entry.saving = saving
-      entry.forecast = forecast
+      if forecast:
+	entry.forecast = forecast
     else:
       entry = Usage(
 	entryfor=entryfor,
@@ -143,10 +145,14 @@ def top():
   )
   contents = Markup(contents)
 
-  return render_template(
-    'top.html',
-    usage=usage, today=today, ratio=ratio, contents=contents
+  response = make_response(
+    render_template(
+      'top.html',
+      usage=usage, today=today, ratio=ratio, contents=contents
+    )
   )
+  response.headers['Cache-Control'] = 'public, max-age=180'
+  return response
 
 def dict_from_usage(usage):
   return usage and {
@@ -186,16 +192,19 @@ def route_json(rule, **options):
 	memcache.set(request.path, data)
 
       if callback:
-	return Response(
-	    '%s(%s);' % (callback, data), mimetype='text/javascript')
-      else:
-	return Response(data, mimetype='application/json')
+	data = '%s(%s);' % (callback, data)
+      return Response(
+	data,
+	mimetype='application/json',
+	headers=(('Cache-Control', 'public, max-age=180'),),
+      )
     app.add_url_rule(rule, func.__name__, decorated, **options)
     return decorated
   return decorator
 
 @route_json('/latest.json')
 def latest():
+  usage = None
   for usage in Usage.all().order('-entryfor').fetch(24):
     if usage.usage != 0:
       break
@@ -218,7 +227,7 @@ def day(year, month, day):
   usage = usage.filter('month =', month)
   usage = usage.filter('day =', day)
   usage = usage.order('entryfor')
-  return [dict_from_usage(u) for u in usage]
+  return [dict_from_usage(u) for u in usage if u.usage != 0]
 
 @route_json('/<int:year>/<int:month>.json')
 def month(year, month):
@@ -226,7 +235,7 @@ def month(year, month):
   usage = usage.filter('year =', year)
   usage = usage.filter('month =', month)
   usage = usage.order('entryfor')
-  return [dict_from_usage(u) for u in usage]
+  return [dict_from_usage(u) for u in usage if u.usage != 0]
 
 @app.route('/quick.txt')
 def quick():
@@ -237,4 +246,6 @@ def quick():
       abort(404)
     data = data.value
     memcache.set(request.path, data)
-  return data
+  response = make_response(data)
+  response.headers['Cache-Control'] = 'public, max-age=180'
+  return response
