@@ -43,7 +43,7 @@ def from_web(oldlastmodstr=None, url=None):
   r['capacity'] = int(line[0])
   r['capacity-peak-period'] = int(line[1].split(':')[0])
   t = datetime.datetime.strptime(
-    '2011 %s %s' % (line[2], line[3]), 
+    '2012 %s %s' % (line[2], line[3]), 
     '%Y %m/%d %H:%M'
   )
   t -= datetime.timedelta(hours=9)
@@ -60,7 +60,7 @@ def from_web(oldlastmodstr=None, url=None):
   r['forecast-peak-usage'] = int(line[0])
   r['forecast-peak-period'] = int(line[1].split(':')[0])
   t = datetime.datetime.strptime(
-    '2011 %s %s' % (line[2], line[3]), 
+    '2012 %s %s' % (line[2], line[3]), 
     '%Y %m/%d %H:%M'
   )
   t -= datetime.timedelta(hours=9)
@@ -73,6 +73,7 @@ def from_web(oldlastmodstr=None, url=None):
   line = csv.readline()		# DATE,TIME,当日実績(万kW),予測値(万kW)
   for x in range(24):
     line = csv.readline()
+    # 2012/11/27,0:00,2955,0
     line = line.strip()
     line = line.split(',')
     hour = int(line[1].split(':')[0])

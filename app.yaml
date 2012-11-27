@@ -25,6 +25,3 @@ handlers:
 - url: /crossdomain.xml
   static_files: crossdomain.xml
   upload: crossdomain.xml
-
-builtins:
-- datastore_admin: on

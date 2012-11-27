@@ -91,31 +91,25 @@ def update_from_tepco():
   for hour, (usage, saving, forecast) in data['usage'].iteritems():
     entryfor = utc_from_jst(jst.replace(hour=hour))
     entry = Usage.all().filter('entryfor =', entryfor).get()
-    if entry:
-      if entry.usage != usage:
-	entry.usage = usage
-	entry.usage_updated = data['usage-updated']
-      entry.saving = saving
-      if forecast:
-	entry.forecast = forecast
-    else:
+    if not entry:
       entry = Usage(
 	entryfor=entryfor,
 	year=entryfor.year,
 	month=jst.month,
 	day=jst.day,
 	hour=hour,
-	usage=usage,
-	saving=saving,
-	forecast=forecast,
-	usage_updated=data['usage-updated'],
-	capacity=data['capacity'],
-	capacity_updated=data['capacity-updated'],
-	capacity_peak_period=data['capacity-peak-period'],
-	forecast_peak_usage=data['forecast-peak-usage'],
-	forecast_peak_period=data['forecast-peak-period'],
-	forecast_peak_updated=data['forecast-peak-updated'],
       )
+
+    entry.usage = usage
+    entry.saving = saving
+    entry.forecast = forecast
+    entry.usage_updated = data['usage-updated']
+    entry.capacity = data['capacity']
+    entry.capacity_updated = data['capacity-updated']
+    entry.capacity_peak_period = data['capacity-peak-period']
+    entry.forecast_peak_usage = data['forecast-peak-usage']
+    entry.forecast_peak_period = data['forecast-peak-period']
+    entry.forecast_peak_updated = data['forecast-peak-updated']
     entry.put()
   memcache.flush_all()
   return ''
@@ -179,6 +173,8 @@ def route_json(rule, **options):
   def decorator(func):
     def decorated(*args, **kw):
       callback = request.form.get('callback') or request.args.get('callback')
+      if callback and callback.startswith('jsonp'):	# XXX sgk
+	abort(404)
       if callback and not RE_CALLBACK.search(callback):
 	abort(404)
 
@@ -186,10 +182,13 @@ def route_json(rule, **options):
       if not data or not isinstance(data, str):
 	logging.info('Cache miss for %s' % request.path)
 	data = func(*args, **kw)
-	if not data:
-	  abort(404)
-	data = json.dumps(data, indent=2)
+	if data:
+	  data = json.dumps(data, indent=2)
+	else:
+	  data = '404'
 	memcache.set(request.path, data)
+      if data == '404':
+	abort(404)
 
       if callback:
 	data = '%s(%s);' % (callback, data)
