@@ -91,21 +91,30 @@ def update_from_tepco():
   for hour, (usage, saving, forecast) in data['usage'].iteritems():
     entryfor = utc_from_jst(jst.replace(hour=hour))
     entry = Usage.all().filter('entryfor =', entryfor).get()
-    if not entry:
+    if entry:
+      entry.saving = saving
+      entry.forecast = forecast
+      if entry.usage != usage:
+	entry.usage = usage
+	entry.usage_updated = data['usage-updated']
+      if entry.capacity != data['capacity']:
+	entry.capacity = data['capacity']
+	entry.capacity_updated = data['capacity-updated']
+    else:
       entry = Usage(
 	entryfor=entryfor,
 	year=entryfor.year,
 	month=jst.month,
 	day=jst.day,
 	hour=hour,
+	saving=saving,
+	forecast=forecast,
+	usage=usage,
+	usage_updated=data['usage-updated'],
+	capacity=data['capacity'],
+	capacity_updated=data['capacity-updated']
       )
 
-    entry.usage = usage
-    entry.saving = saving
-    entry.forecast = forecast
-    entry.usage_updated = data['usage-updated']
-    entry.capacity = data['capacity']
-    entry.capacity_updated = data['capacity-updated']
     entry.capacity_peak_period = data['capacity-peak-period']
     entry.forecast_peak_usage = data['forecast-peak-usage']
     entry.forecast_peak_period = data['forecast-peak-period']

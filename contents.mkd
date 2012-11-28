@@ -1,5 +1,7 @@
 ## ニュース
 
+2012年11月28日、問題の修正作業をしました。
+
 2011年7月1日、以下の新しいAPIを追加しました。
 
 [http://tepco-usage-api.appspot.com/quick.txt](quick.txt)

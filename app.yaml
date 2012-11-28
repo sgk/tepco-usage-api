@@ -1,7 +1,8 @@
-application: tepco-usage-api
+application: tepco-usage-api-hrd
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: no
 
 handlers:
 - url: /update_from_tepco
